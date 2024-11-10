@@ -1,0 +1,17 @@
+﻿global using System.Net.Http.Json;
+global using System.Reflection;
+global using EasyNetQ;
+global using Fibonacci.DomainModel.Calculation;
+global using Fibonacci.DomainModel.Calculation.Logic.Service;
+global using Fibonacci.DomainModel.Calculation.Subscriber;
+global using Fibonacci.DomainUseCases.Calculation;
+global using Fibonacci.DomainUseCases.Calculation.Actions.SendResult;
+global using Fibonacci.DomainUseCases.Calculation.DTOs;
+global using Fibonacci.Infrastructure.App;
+global using Fibonacci.Infrastructure.App.Config;
+global using Fibonacci.Infrastructure.Calculation;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Logging;
+global using Serilog;
+global using Serilog.Extensions.Logging;

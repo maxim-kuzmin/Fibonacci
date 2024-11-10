@@ -1,0 +1,14 @@
+services:
+  rabbitmq:
+    container_name: ${MY_CONTAINER_RABBITMQ}
+    image: rabbitmq:3.13.7-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=${MY_DEFAULT_LOGIN}
+      - RABBITMQ_DEFAULT_PASS=${MY_DEFAULT_PASSWORD}
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
+    volumes:
+      - ${MY_DOCKER_FOLDER}/${MY_CONTAINER_RABBITMQ}:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    restart: unless-stopped
