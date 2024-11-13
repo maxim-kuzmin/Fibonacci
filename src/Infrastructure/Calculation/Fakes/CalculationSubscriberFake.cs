@@ -18,7 +18,7 @@ public class CalculationSubscriberFake(Guid _calculationId, ICalculationService 
   }
 
   /// <inheritdoc/>
-  public Task<Task<CalculationResult>> GetNextCalculationResultTask(
+  public Task<CalculationResult> GetNextCalculationResult(
     CalculationResult previousCalculationResult,
     CancellationToken cancellationToken)
   { 
@@ -27,8 +27,8 @@ public class CalculationSubscriberFake(Guid _calculationId, ICalculationService 
       throw new InvalidOperationException("Should subscribe");
     }
 
-    var task = Task.FromResult(_calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult));
+    var calculationResult = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
-    return Task.FromResult(task);
+    return Task.FromResult(calculationResult);
   }
 }

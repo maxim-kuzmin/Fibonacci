@@ -12,12 +12,12 @@ public interface ICalculationSubscriber
   Task Subscribe();
 
   /// <summary>
-  /// Получить задачу на получение результата следующего расчёта на основании результата предыдущего.
+  /// Получить результат следующего расчёта на основании результата предыдущего.
   /// </summary>
   /// <param name="previousCalculationResult">Результат предыдущего расчёта.</param>
   /// <param name="cancellationToken">Токен отмены.</param>
-  /// <returns>Задача на получение результата следующего расчёта.</returns>
-  Task<Task<CalculationResult>> GetNextCalculationResultTask(
+  /// <returns>Результат следующего расчёта.</returns>
+  Task<CalculationResult> GetNextCalculationResult(
     CalculationResult previousCalculationResult,
     CancellationToken cancellationToken);
 }

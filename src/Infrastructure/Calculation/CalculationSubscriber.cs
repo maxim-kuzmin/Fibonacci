@@ -33,7 +33,7 @@ public class CalculationSubscriber(
   }
 
   /// <inheritdoc/>
-  public async Task<Task<CalculationResult>> GetNextCalculationResultTask(
+  public Task<CalculationResult> GetNextCalculationResult(
     CalculationResult previousCalculationResult,
     CancellationToken cancellationToken)
   {
@@ -44,7 +44,7 @@ public class CalculationSubscriber(
 
     _taskCompletionSource = new TaskCompletionSource<CalculationResult>();
 
-    await SendCalculationResult(previousCalculationResult, cancellationToken);
+    Task.Run(() => SendCalculationResult(previousCalculationResult, cancellationToken), cancellationToken);
 
     return _taskCompletionSource.Task;
   }

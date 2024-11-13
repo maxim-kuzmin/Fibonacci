@@ -49,11 +49,7 @@ public class CalculationWorker(
 
       Display(calculationId, calculationResult);
 
-      var nextCalculationResultTask = await calculationSubscriber.GetNextCalculationResultTask(
-        calculationResult,
-        cancellationToken);
-
-      calculationResult = await nextCalculationResultTask;
+      calculationResult = await calculationSubscriber.GetNextCalculationResult(calculationResult, cancellationToken);
 
       Display(calculationId, calculationResult);
     }
