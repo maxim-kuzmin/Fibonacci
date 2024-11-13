@@ -44,9 +44,16 @@ public class CalculationSubscriber(
 
     _taskCompletionSource = new TaskCompletionSource<CalculationResult>();
 
+    await SendCalculationResult(previousCalculationResult, cancellationToken);
+
+    return _taskCompletionSource.Task;
+  }
+
+  private async Task SendCalculationResult(CalculationResult calculationResult, CancellationToken cancellationToken)
+  {
     using var httpClient = _httpClientFactory.CreateClient(AppSettings.CalculationPublisherHttpClientName);
 
-    var calculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
+    var calculationResultDTO = calculationResult.ToCalculationResultDTO(_calculationId);
 
     using var requestContent = JsonContent.Create(calculationResultDTO);
 
@@ -55,7 +62,5 @@ public class CalculationSubscriber(
     var responseMessage = await requestTask.ConfigureAwait(false);
 
     responseMessage.EnsureSuccessStatusCode();
-
-    return _taskCompletionSource.Task;
   }
 }
