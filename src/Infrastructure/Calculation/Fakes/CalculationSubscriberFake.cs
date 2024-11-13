@@ -7,26 +7,13 @@
 /// <param name="_calculationService">Сервис расчёта.</param>
 public class CalculationSubscriberFake(Guid _calculationId, ICalculationService _calculationService) : ICalculationSubscriber
 {
-  private CalculationClient? _calculationClient;
-
-  /// <inheritdoc/>
-  public Task Subscribe()
-  {
-    _calculationClient = new(_calculationService);
-
-    return Task.CompletedTask;
-  }
+  private readonly CalculationClient _calculationClient = new(_calculationService);
 
   /// <inheritdoc/>
   public Task<CalculationResult> GetNextCalculationResult(
     CalculationResult previousCalculationResult,
     CancellationToken cancellationToken)
   { 
-    if (_calculationClient == null)
-    {
-      throw new InvalidOperationException("Should subscribe");
-    }
-
     var calculationResult = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
     return Task.FromResult(calculationResult);

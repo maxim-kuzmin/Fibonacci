@@ -40,8 +40,6 @@ public class CalculationWorker(
 
     var calculationSubscriber = _calculationSubscriberFactory.CreateCalculationSubscriber(calculationId);
 
-    await calculationSubscriber.Subscribe();
-
     while (!cancellationToken.IsCancellationRequested)
     // //makc// for (var i = 0; i < 10; i++)
     {

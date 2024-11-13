@@ -6,12 +6,6 @@
 public interface ICalculationSubscriber
 {
   /// <summary>
-  /// Подписаться. Нужно выполнить только один раз, чтобы подписаться на получение сообщений из очереди.
-  /// </summary>
-  /// <returns></returns>
-  Task Subscribe();
-
-  /// <summary>
   /// Получить результат следующего расчёта на основании результата предыдущего.
   /// </summary>
   /// <param name="previousCalculationResult">Результат предыдущего расчёта.</param>
