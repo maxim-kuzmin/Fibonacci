@@ -13,19 +13,18 @@ public class CalculationSubscriber(
 {
   private TaskCompletionSource<CalculationResult>? _taskCompletionSource = null;
 
+  private bool _isSubscribed = false;
+
   /// <inheritdoc/>
   public Task Subscribe()
   {
+    _isSubscribed = true;
+
     return _bus.PubSub.SubscribeAsync<CalculationResultDTO>(
       _calculationId.ToString(),
       (calculationResultDTO) =>
       {
-        if (_taskCompletionSource == null)
-        {
-          throw new InvalidOperationException("Should subscribe");
-        }
-
-        _taskCompletionSource.SetResult(calculationResultDTO.ToCalculationResult());
+        _taskCompletionSource?.SetResult(calculationResultDTO.ToCalculationResult());
       },
       (config) =>
       {
@@ -38,6 +37,11 @@ public class CalculationSubscriber(
     CalculationResult previousCalculationResult,
     CancellationToken cancellationToken)
   {
+    if (!_isSubscribed)
+    {
+      throw new InvalidOperationException("Should subscribe");
+    }
+
     _taskCompletionSource = new TaskCompletionSource<CalculationResult>();
 
     using var httpClient = _httpClientFactory.CreateClient(AppSettings.CalculationPublisherHttpClientName);

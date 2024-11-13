@@ -25,7 +25,7 @@ public class CalculationWorker(
       tasks.Add(Task.Run(() => Calculate(stoppingToken), stoppingToken));
     }
 
-    await Task.WhenAll(tasks).ConfigureAwait(false);
+    await Task.WhenAll(tasks);
 
     _logger.LogInformation("Calculation work finished");
   }
@@ -40,7 +40,7 @@ public class CalculationWorker(
 
     var calculationSubscriber = _calculationSubscriberFactory.CreateCalculationSubscriber(calculationId);
 
-    await calculationSubscriber.Subscribe().ConfigureAwait(false);
+    await calculationSubscriber.Subscribe();
 
     while (!cancellationToken.IsCancellationRequested)
     // //makc// for (var i = 0; i < 10; i++)
@@ -49,13 +49,11 @@ public class CalculationWorker(
 
       Display(calculationId, calculationResult);
 
-      var getNextCalculationResultTask = calculationSubscriber.GetNextCalculationResultTask(
+      var nextCalculationResultTask = await calculationSubscriber.GetNextCalculationResultTask(
         calculationResult,
         cancellationToken);
 
-      var calculationResultTask = await getNextCalculationResultTask.ConfigureAwait(false);
-
-      calculationResult = await calculationResultTask.ConfigureAwait(false);
+      calculationResult = await nextCalculationResultTask;
 
       Display(calculationId, calculationResult);
     }

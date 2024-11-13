@@ -1,1 +1,1 @@
-﻿await AppHost.RunAsync(args).ConfigureAwait(false);
+﻿await AppHost.RunAsync(args);
