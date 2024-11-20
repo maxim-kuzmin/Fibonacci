@@ -10,7 +10,13 @@ public class CalculationLogicService : ICalculationLogicService
   /// <inheritdoc/>
   public CalculationResult GetNextCalculationResult(CalculationResult previousCalculationResult)
   {
-    ArgumentNullException.ThrowIfNull(previousCalculationResult);
+    ArgumentOutOfRangeException.ThrowIfNegative(
+      previousCalculationResult.Input,
+      nameof(previousCalculationResult.Input));
+
+    ArgumentOutOfRangeException.ThrowIfNegative(
+      previousCalculationResult.Output,
+      nameof(previousCalculationResult.Output));
 
     _output = _output > 0 ? previousCalculationResult.Output + _output : 1;
 
