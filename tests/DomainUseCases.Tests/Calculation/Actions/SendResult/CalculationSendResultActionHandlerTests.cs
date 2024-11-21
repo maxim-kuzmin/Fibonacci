@@ -23,8 +23,8 @@ public class CalculationSendResultActionHandlerTests
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnceGetNextCalculationResult))]
-  public async Task Handle_CalculationSendResultActionCommand_CallsOnceGetNextCalculationResult(
+  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnceClientGetNextCalculationResult))]
+  public async Task Handle_CalculationSendResultActionCommand_CallsOnceClientGetNextCalculationResult(
     string commandCalculationResultInput,
     string commandCalculationResultOutput)
   {
@@ -42,8 +42,8 @@ public class CalculationSendResultActionHandlerTests
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOncePublishNextCalculationResult))]
-  public async Task Handle_CalculationSendResultActionCommand_CallsOncePublishNextCalculationResult(
+  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOncePublisherPublishNextCalculationResult))]
+  public async Task Handle_CalculationSendResultActionCommand_CallsOncePublisherPublishNextCalculationResult(
     string commandCalculationResultInput,
     string commandCalculationResultOutput,
     BigInteger nextCalculationResultInput,
@@ -62,19 +62,19 @@ public class CalculationSendResultActionHandlerTests
       Times.Once());
   }
 
-  private class GetNextCalculationResultTestTheoryDataForCallsOnceGetNextCalculationResult : TheoryData<string, string>
+  private class GetNextCalculationResultTestTheoryDataForCallsOnceClientGetNextCalculationResult : TheoryData<string, string>
   {
-    public GetNextCalculationResultTestTheoryDataForCallsOnceGetNextCalculationResult()
+    public GetNextCalculationResultTestTheoryDataForCallsOnceClientGetNextCalculationResult()
     {
       var previousCalculationResult = _previousCalculationResult.ToSerializableCalculationResult();
 
       Add(previousCalculationResult.Input, previousCalculationResult.Output);
     }
   }
-  private class GetNextCalculationResultTestTheoryDataForCallsOncePublishNextCalculationResult :
+  private class GetNextCalculationResultTestTheoryDataForCallsOncePublisherPublishNextCalculationResult :
     TheoryData<string, string, BigInteger, BigInteger>
   {
-    public GetNextCalculationResultTestTheoryDataForCallsOncePublishNextCalculationResult()
+    public GetNextCalculationResultTestTheoryDataForCallsOncePublisherPublishNextCalculationResult()
     {
       var previousCalculationResult = _previousCalculationResult.ToSerializableCalculationResult();
 

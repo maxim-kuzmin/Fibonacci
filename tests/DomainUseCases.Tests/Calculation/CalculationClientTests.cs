@@ -1,12 +1,10 @@
 ﻿namespace Fibonacci.DomainUseCases.Tests.Calculation;
 
-public class CalculationServiceTests
+public class CalculationClientTests
 {
-  private readonly Mock<ICalculationLogicService> _calculationLogicServiceMock = new();
+  private readonly Mock<ICalculationService> _calculationServiceMock = new();
 
-  private readonly Mock<ICalculationLogicServiceFactory> _calculationLogicServiceFactoryMock = new();
-
-  private readonly CalculationService _calculationService;
+  private readonly CalculationClient _calculationClient;
 
   private static readonly CalculationResult[] _previousCalculationResults =
     [new(0, 0), new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5)];
@@ -16,38 +14,39 @@ public class CalculationServiceTests
 
   private static readonly Guid _calculationId = Guid.NewGuid();
 
-  public CalculationServiceTests()
+  public CalculationClientTests()
   {
-    _calculationService = new CalculationService(_calculationLogicServiceFactoryMock.Object);
-
-    _calculationLogicServiceFactoryMock.Setup(x => x.CreateCalculationLogicService())
-      .Returns(_calculationLogicServiceMock.Object);
+    _calculationClient = new(_calculationServiceMock.Object);
 
     for (int i = 0; i < _previousCalculationResults.Length; i++)
     {
-      _calculationLogicServiceMock.Setup(x => x.GetNextCalculationResult(_previousCalculationResults[i]))
-        .Returns(_nextCalculationResults[i]);
+      var previousCalculationResultDTO = _previousCalculationResults[i].ToCalculationResultDTO(_calculationId);
+
+      var nextCalculationResultDTO = _nextCalculationResults[i].ToCalculationResultDTO(_calculationId);
+
+      _calculationServiceMock.Setup(x => x.GetNextCalculationResult(previousCalculationResultDTO))
+        .Returns(nextCalculationResultDTO);
     }
   }
 
   [Theory]
   [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnce))]
-  public void GetNextCalculationResult_PreviousCalculationResultDTO_CallsOnceLogicServiceGetNextCalculationResult(
-  BigInteger previousCalculationResultInput,
-  BigInteger previousCalculationResultOutput)
+  public void GetNextCalculationResult_PreviousCalculationResult_CallsOnceServiceGetNextCalculationResult(
+    BigInteger previousCalculationResultInput,
+    BigInteger previousCalculationResultOutput)
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
     var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
 
-    var actual = _calculationService.GetNextCalculationResult(previousCalculationResultDTO);
+    var actual = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
-    _calculationLogicServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResult), Times.Once());
+    _calculationServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResultDTO), Times.Once());
   }
 
   [Theory]
   [ClassData(typeof(GetNextCalculationResultTestTheoryDataForReturns))]
-  public void GetNextCalculationResult_PreviousCalculationResultDTO_ReturnsNextCalculationResultDTO(
+  public void GetNextCalculationResult_PreviousCalculationResult_ReturnsNextCalculationResult(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput,
     BigInteger nextCalculationResultInput,
@@ -57,13 +56,9 @@ public class CalculationServiceTests
 
     CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
+    var actual = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
-    var nextCalculationResultDTO = nextCalculationResult.ToCalculationResultDTO(_calculationId);
-
-    var actual = _calculationService.GetNextCalculationResult(previousCalculationResultDTO);
-
-    Assert.Equal(nextCalculationResultDTO, actual);
+    Assert.Equal(nextCalculationResult, actual);
   }
 
   private class GetNextCalculationResultTestTheoryDataForCallsOnce : TheoryData<BigInteger, BigInteger>

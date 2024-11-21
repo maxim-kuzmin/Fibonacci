@@ -56,3 +56,9 @@ cd ./src/Apps/FirstApp
 dotnet run -- 5
 ```
 где 5 - число асинхронных расчетов
+
+### 4. Тесты
+
+```
+dotnet test
+```

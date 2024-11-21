@@ -7,7 +7,7 @@ public class CalculationLogicServiceTests
   [Theory]
   [InlineData(-1, 0)]
   [InlineData(0, -1)]
-  public void GetNextCalculationResult_NegativeInputOrOutput_ThrowsArgumentOutOfRangeException(
+  public void GetNextCalculationResult_InvalidPreviousCalculationResult_ThrowsArgumentOutOfRangeException(
     BigInteger input,
     BigInteger output)
   {
