@@ -43,7 +43,7 @@ public static class AppExtensions
         });
 
     services.AddSingleton<ICalculationSubscriberFactory, CalculationSubscriberFactory>();
-    // //makc// services.AddSingleton<ICalculationSubscriberFactory, Calculation.Fakes.CalculationSubscriberFactoryFake>();
+    // //makc// services.AddSingleton<ICalculationSubscriberFactory, CalculationLocalSubscriberFactory>();
 
     logger.LogInformation("UI layer added");
 

@@ -7,4 +7,5 @@ global using Fibonacci.DomainModel.Calculation.Subscriber;
 global using Fibonacci.DomainUseCases.App;
 global using Fibonacci.Infrastructure.App;
 global using Fibonacci.Infrastructure.App.Config;
+global using Fibonacci.Infrastructure.Calculation.Local.Subscriber;
 global using Fibonacci.Infrastructure.Calculation.Subscriber;
