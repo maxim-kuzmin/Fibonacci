@@ -21,9 +21,6 @@ public static class AppExtensions
     IConfigurationSection appConfigSection,
     int calculationCount)
   {
-    ArgumentNullException.ThrowIfNull(logger);
-    ArgumentNullException.ThrowIfNull(appConfigOptions);
-    ArgumentNullException.ThrowIfNull(appConfigSection);
     ArgumentOutOfRangeException.ThrowIfLessThan(calculationCount, 1);
 
     services.Configure<AppConfigOptions>(appConfigSection);

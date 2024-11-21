@@ -28,6 +28,7 @@ public class AppHost
 
       builder.Services
         .AddAppHostLayer(logger, appConfigOptions, appConfigSection, calculationCount)
+        .AddAppDomainUseCasesLayer(logger)
         .AddAppInfrastructureLayer(logger, builder.Configuration, appConfigOptions.RabbitMQ);
 
       var app = builder.Build();

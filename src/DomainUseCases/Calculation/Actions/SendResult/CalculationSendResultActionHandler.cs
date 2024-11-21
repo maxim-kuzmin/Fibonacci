@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.Calculation.Actions.Send;
+﻿namespace Fibonacci.DomainUseCases.Calculation.Actions.SendResult;
 
 /// <summary>
 /// Обработчик действия по отправке результата расчёта.
@@ -7,7 +7,7 @@
 /// <param name="_calculationPublisher">Издатель расчёта.</param>
 public class CalculationSendResultActionHandler(
   ICalculationClient _calculationClient,
-  ICalculationPublisher _calculationPublisher) : ICalculationSendResultActionHandler
+  ICalculationPublisher _calculationPublisher) : IRequestHandler<CalculationSendResultActionCommand>
 {
   /// <inheritdoc/>
   public async Task Handle(CalculationSendResultActionCommand request, CancellationToken cancellationToken)

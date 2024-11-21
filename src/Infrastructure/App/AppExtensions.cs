@@ -19,18 +19,11 @@ public static class AppExtensions
     IConfiguration configuration,
     AppConfigOptionsRabbitMQ appConfigOptionsRabbitMQ)
   {
-    ArgumentNullException.ThrowIfNull(logger);
-    ArgumentNullException.ThrowIfNull(configuration);
-    ArgumentNullException.ThrowIfNull(appConfigOptionsRabbitMQ);
-
     services.AddSerilog(config => config.ReadFrom.Configuration(configuration));
-
-    services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
     services.AddEasyNetQ($"host={appConfigOptionsRabbitMQ.Hostname}:{appConfigOptionsRabbitMQ.Port};username={appConfigOptionsRabbitMQ.Username};password={appConfigOptionsRabbitMQ.Password}")
       .UseSystemTextJson();
 
-    services.AddTransient<ICalculationLogicServiceFactory, CalculationLogicServiceFactory>();
     services.AddTransient<ICalculationService, CalculationService>();
     services.AddSingleton<ICalculationClient, CalculationClient>();
     services.AddSingleton<ICalculationPublisher, CalculationPublisher>();

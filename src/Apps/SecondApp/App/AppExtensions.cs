@@ -17,9 +17,6 @@ public static class AppExtensions
     ILogger logger,
     IConfigurationSection appConfigSection)
   {
-    ArgumentNullException.ThrowIfNull(logger);
-    ArgumentNullException.ThrowIfNull(appConfigSection);
-
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 
