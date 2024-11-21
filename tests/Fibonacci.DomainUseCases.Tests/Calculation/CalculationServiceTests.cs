@@ -30,7 +30,7 @@ public class CalculationServiceTests
 
   [Theory]
   [ClassData(typeof(GetNextCalculationResultTestTheoryData))]
-  public void GetNextCalculationResult_ValidPreviousCalculationResultDTO_ReturnsNextCalculationResultDTO(
+  public void GetNextCalculationResult_PreviousCalculationResultDTO_ReturnsNextCalculationResultDTO(
     string serializedData)
   {
     var data = GetNextCalculationResultTestTheoryData.ParseData(serializedData);

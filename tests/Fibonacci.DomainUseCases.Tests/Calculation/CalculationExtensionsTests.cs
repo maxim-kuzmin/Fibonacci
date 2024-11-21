@@ -4,31 +4,61 @@ public class CalculationExtensionsTests
 {
   [Theory]
   [ClassData(typeof(TestTheoryData))]
-  public void ToCalculationResult_ValidCalculationResultDTO_ReturnsCalculationResult(string serializedData)
+  public void ToCalculationResult_CalculationResultDTO_ReturnsCalculationResult(
+    string serializedCalculationId,
+    string serializableInput,
+    string serializableOutput,
+    BigInteger input,
+    BigInteger output)
   {
-    var data = TestTheoryData.ParseData(serializedData);
+    var calculationId = Guid.Parse(serializedCalculationId);
 
-    var actual = data.CalculationResultDTO.ToCalculationResult();
+    CalculationResultDTO calculationResultDTO = new(calculationId, new(serializableInput, serializableOutput));
 
-    Assert.Equal(data.CalculationResult.ToCalculationResult(), actual);
+    CalculationResult calculationResult = new(input, output);
+
+    var actual = calculationResultDTO.ToCalculationResult();
+
+    Assert.Equal(calculationResult, actual);
   }
 
   [Theory]
   [ClassData(typeof(TestTheoryData))]
-  public void ToCalculationResultDTO_ValidCalculationResult_ReturnsCalculationResultDTO(string serializedData)
+  public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationResultDTO(
+    string serializedCalculationId,
+    string serializableInput,
+    string serializableOutput,
+    BigInteger input,
+    BigInteger output)
   {
-    var data = TestTheoryData.ParseData(serializedData);
+    var calculationId = Guid.Parse(serializedCalculationId);
 
-    var actual = data.CalculationResult
-      .ToCalculationResult()
-      .ToCalculationResultDTO(data.CalculationResultDTO.CalculationId);
+    CalculationResultDTO calculationResultDTO = new(calculationId, new(serializableInput, serializableOutput));
 
-    Assert.Equal(data.CalculationResultDTO, actual);
+    CalculationResult calculationResult = new(input, output);
+
+    var actual = calculationResult.ToCalculationResultDTO(calculationId);
+
+    Assert.Equal(calculationResultDTO, actual);
   }
 
-  private class TestTheoryData : TheoryData<string>
+  private class TestTheoryData : TheoryData<string, string, string, BigInteger, BigInteger>
   {
     public TestTheoryData()
+    {
+      var calculationId = Guid.NewGuid().ToString();
+
+      Add(calculationId, "0", "0", 0, 0);
+      Add(calculationId, "1", "1", 1, 1);
+      Add(calculationId, "-1", "1", -1, 1);
+      Add(calculationId, "1", "-1", 1, -1);
+      Add(calculationId, "-1", "-1", -1, -1);
+    }
+  }
+
+  private class TestTheoryData1 : TheoryData<string>
+  {
+    public TestTheoryData1()
     {
       var calculationId = Guid.NewGuid();
 
