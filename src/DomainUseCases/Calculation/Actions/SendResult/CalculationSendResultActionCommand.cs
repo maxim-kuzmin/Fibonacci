@@ -4,8 +4,6 @@
 /// Команда на выполнение действия по отправке результата расчёта.
 /// </summary>
 /// <param name="CalculationId">Идентификатор расчёта.</param>
-/// <param name="Input">Входные данные.</param>
-/// <param name="Output">Выходные данные.</param>
-public record CalculationSendResultActionCommand(Guid CalculationId, string Input, string Output) :
-  CalculationResultDTO(CalculationId, new SerializableCalculationResult(Input, Output)),
+/// <param name="CalculationResult">Результат расчёта.</param>
+public record CalculationSendResultActionCommand(Guid CalculationId, SerializableCalculationResult CalculationResult) :
   IRequest;

@@ -2,22 +2,41 @@
 
 public class CalculationExtensionsTests
 {
+  private static readonly CalculationResult[] _calculationResults =
+    [new(0, 0), new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)];
+
+  private static readonly Guid _calculationId = Guid.NewGuid();
+
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResult_CalculationResultDTO_ReturnsCalculationResult(
-    string serializedCalculationId,
-    string serializableInput,
-    string serializableOutput,
+    string dtoInput,
+    string dtoOutput,
     BigInteger input,
     BigInteger output)
   {
-    var calculationId = Guid.Parse(serializedCalculationId);
-
-    CalculationResultDTO calculationResultDTO = new(calculationId, new(serializableInput, serializableOutput));
+    CalculationResultDTO dto = new(_calculationId, new(dtoInput, dtoOutput));
 
     CalculationResult calculationResult = new(input, output);
 
-    var actual = calculationResultDTO.ToCalculationResult();
+    var actual = dto.ToCalculationResult();
+
+    Assert.Equal(calculationResult, actual);
+  }
+
+  [Theory]
+  [ClassData(typeof(TestTheoryData))]
+  public void ToCalculationResult_CalculationSendResultActionCommand_ReturnsCalculationResult(
+    string commandInput,
+    string commandOutput,
+    BigInteger input,
+    BigInteger output)
+  {
+    CalculationSendResultActionCommand command = new(_calculationId, new(commandInput, commandOutput));
+
+    CalculationResult calculationResult = new(input, output);
+
+    var actual = command.ToCalculationResult();
 
     Assert.Equal(calculationResult, actual);
   }
@@ -25,59 +44,51 @@ public class CalculationExtensionsTests
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationResultDTO(
-    string serializedCalculationId,
-    string serializableInput,
-    string serializableOutput,
+    string dtoInput,
+    string dtoOutput,
     BigInteger input,
     BigInteger output)
   {
-    var calculationId = Guid.Parse(serializedCalculationId);
-
-    CalculationResultDTO calculationResultDTO = new(calculationId, new(serializableInput, serializableOutput));
+    CalculationResultDTO dto = new(_calculationId, new(dtoInput, dtoOutput));
 
     CalculationResult calculationResult = new(input, output);
 
-    var actual = calculationResult.ToCalculationResultDTO(calculationId);
+    var actual = calculationResult.ToCalculationResultDTO(_calculationId);
 
-    Assert.Equal(calculationResultDTO, actual);
+    Assert.Equal(dto, actual);
   }
 
-  private class TestTheoryData : TheoryData<string, string, string, BigInteger, BigInteger>
+  [Theory]
+  [ClassData(typeof(TestTheoryData))]
+  public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationSendResultActionCommand(
+    string commandInput,
+    string commandOutput,
+    BigInteger input,
+    BigInteger output)
+  {
+    CalculationSendResultActionCommand command = new(_calculationId, new(commandInput, commandOutput));
+
+    CalculationResult calculationResult = new(input, output);
+
+    var actual = calculationResult.ToCalculationSendResultActionCommand(_calculationId);
+
+    Assert.Equal(command, actual);
+  }
+
+  private class TestTheoryData : TheoryData<string, string, BigInteger, BigInteger>
   {
     public TestTheoryData()
     {
-      var calculationId = Guid.NewGuid().ToString();
+      foreach (var calculationResult in _calculationResults)
+      {
+        var serializableCalculationResult = calculationResult.ToSerializableCalculationResult();
 
-      Add(calculationId, "0", "0", 0, 0);
-      Add(calculationId, "1", "1", 1, 1);
-      Add(calculationId, "-1", "1", -1, 1);
-      Add(calculationId, "1", "-1", 1, -1);
-      Add(calculationId, "-1", "-1", -1, -1);
+        Add(
+          serializableCalculationResult.Input,
+          serializableCalculationResult.Output,
+          calculationResult.Input,
+          calculationResult.Output);
+      }
     }
   }
-
-  private class TestTheoryData1 : TheoryData<string>
-  {
-    public TestTheoryData1()
-    {
-      var calculationId = Guid.NewGuid();
-
-      CalculationResult calculationResult = new(1, 1);
-
-      var data = new TestData(
-        calculationResult.ToSerializableCalculationResult(),
-        calculationResult.ToCalculationResultDTO(calculationId));
-
-      Add(JsonSerializer.Serialize(data));
-    }
-
-    public static TestData ParseData(string serializedData)
-    {
-      return JsonSerializer.Deserialize<TestData>(serializedData)!;
-    }
-  }
-
-  private record TestData(
-    SerializableCalculationResult CalculationResult,
-    CalculationResultDTO CalculationResultDTO);
 }

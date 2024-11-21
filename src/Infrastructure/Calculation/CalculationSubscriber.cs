@@ -31,9 +31,9 @@ public class CalculationSubscriber(
   {
     using var httpClient = _httpClientFactory.CreateClient(AppSettings.CalculationPublisherHttpClientName);
 
-    var calculationResultDTO = calculationResult.ToCalculationResultDTO(_calculationId);
+    var command = calculationResult.ToCalculationSendResultActionCommand(_calculationId);
 
-    using var requestContent = JsonContent.Create(calculationResultDTO);
+    using var requestContent = JsonContent.Create(command);
 
     var requestTask = httpClient.PostAsync(AppSettings.CalculationSendResultUrl, requestContent, cancellationToken);
 

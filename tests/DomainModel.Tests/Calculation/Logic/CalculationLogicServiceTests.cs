@@ -26,8 +26,8 @@ public class CalculationLogicServiceTests
   }
 
   [Theory]
-  [ClassData(typeof(FirstAppGetNextCalculationResultTestTheoryData))]
-  [ClassData(typeof(SecondAppGetNextCalculationResultTestTheoryData))]
+  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForFirstApp))]
+  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForSecondApp))]
   public void GetNextCalculationResult_ValidPreviousCalculationResult_ReturnsNextCalculationResult(
     string serializedData)
   {
@@ -48,9 +48,9 @@ public class CalculationLogicServiceTests
     }
   }
 
-  private class FirstAppGetNextCalculationResultTestTheoryData : GetNextCalculationResultTestTheoryData
+  private class GetNextCalculationResultTestTheoryDataForFirstApp : GetNextCalculationResultTestTheoryData
   {
-    public FirstAppGetNextCalculationResultTestTheoryData()
+    public GetNextCalculationResultTestTheoryDataForFirstApp()
     {
       AddData(
         [new(0, 0), new(2, 1), new(4, 3)],
@@ -58,9 +58,9 @@ public class CalculationLogicServiceTests
     }
   }
 
-  private class SecondAppGetNextCalculationResultTestTheoryData : GetNextCalculationResultTestTheoryData
+  private class GetNextCalculationResultTestTheoryDataForSecondApp : GetNextCalculationResultTestTheoryData
   {
-    public SecondAppGetNextCalculationResultTestTheoryData()
+    public GetNextCalculationResultTestTheoryDataForSecondApp()
     {
       AddData(
         [new(1, 1), new(3, 2), new(5, 5)],

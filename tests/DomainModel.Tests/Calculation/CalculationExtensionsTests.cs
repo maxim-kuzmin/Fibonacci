@@ -2,6 +2,9 @@
 
 public class CalculationExtensionsTests
 {
+  private static readonly CalculationResult[] _calculationResults =
+    [new(0, 0), new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)];
+
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResult_SerializableCalculationResult_ReturnsCalculationResult(
@@ -40,11 +43,16 @@ public class CalculationExtensionsTests
   {
     public TestTheoryData()
     {
-      Add("0", "0", 0, 0);
-      Add("1", "1", 1, 1);
-      Add("-1", "1", -1, 1);
-      Add("1", "-1", 1, -1);
-      Add("-1", "-1", -1, -1);
+      foreach (var calculationResult in _calculationResults)
+      {
+        var serializableCalculationResult = calculationResult.ToSerializableCalculationResult();
+
+        Add(
+          serializableCalculationResult.Input,
+          serializableCalculationResult.Output,
+          calculationResult.Input,
+          calculationResult.Output);
+      }
     }
   }
 }
