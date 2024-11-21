@@ -2,9 +2,9 @@
 
 public class CalculationClientTests
 {
-  private readonly Mock<ICalculationService> _calculationServiceMock = new();
+  private readonly CalculationClient _sut;
 
-  private readonly CalculationClient _calculationClient;
+  private readonly Mock<ICalculationService> _calculationServiceMock = new();
 
   private static readonly CalculationResult[] _previousCalculationResults =
     [new(0, 0), new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5)];
@@ -16,7 +16,7 @@ public class CalculationClientTests
 
   public CalculationClientTests()
   {
-    _calculationClient = new(_calculationServiceMock.Object);
+    _sut = new(_calculationServiceMock.Object);
 
     for (int i = 0; i < _previousCalculationResults.Length; i++)
     {
@@ -39,7 +39,7 @@ public class CalculationClientTests
 
     var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
 
-    var actual = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
+    _sut.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
     _calculationServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResultDTO), Times.Once());
   }
@@ -54,11 +54,11 @@ public class CalculationClientTests
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
+    var actual = _sut.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
-    var actual = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
+    CalculationResult expected = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    Assert.Equal(nextCalculationResult, actual);
+    Assert.Equal(expected, actual);
   }
 
   private class GetNextCalculationResultTestTheoryDataForCallsOnce : TheoryData<BigInteger, BigInteger>

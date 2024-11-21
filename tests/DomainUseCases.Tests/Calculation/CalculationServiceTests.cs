@@ -2,11 +2,11 @@
 
 public class CalculationServiceTests
 {
+  private readonly CalculationService _sut;
+
   private readonly Mock<ICalculationLogicService> _calculationLogicServiceMock = new();
 
-  private readonly Mock<ICalculationLogicServiceFactory> _calculationLogicServiceFactoryMock = new();
-
-  private readonly CalculationService _calculationService;
+  private readonly Mock<ICalculationLogicServiceFactory> _calculationLogicServiceFactoryMock = new();  
 
   private static readonly CalculationResult[] _previousCalculationResults =
     [new(0, 0), new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5)];
@@ -18,7 +18,7 @@ public class CalculationServiceTests
 
   public CalculationServiceTests()
   {
-    _calculationService = new CalculationService(_calculationLogicServiceFactoryMock.Object);
+    _sut = new CalculationService(_calculationLogicServiceFactoryMock.Object);
 
     _calculationLogicServiceFactoryMock.Setup(x => x.CreateCalculationLogicService())
       .Returns(_calculationLogicServiceMock.Object);
@@ -33,14 +33,14 @@ public class CalculationServiceTests
   [Theory]
   [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnce))]
   public void GetNextCalculationResult_PreviousCalculationResultDTO_CallsOnceLogicServiceGetNextCalculationResult(
-  BigInteger previousCalculationResultInput,
-  BigInteger previousCalculationResultOutput)
+    BigInteger previousCalculationResultInput,
+    BigInteger previousCalculationResultOutput)
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
     var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
 
-    var actual = _calculationService.GetNextCalculationResult(previousCalculationResultDTO);
+    _sut.GetNextCalculationResult(previousCalculationResultDTO);
 
     _calculationLogicServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResult), Times.Once());
   }
@@ -59,11 +59,11 @@ public class CalculationServiceTests
 
     var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
 
-    var nextCalculationResultDTO = nextCalculationResult.ToCalculationResultDTO(_calculationId);
+    var actual = _sut.GetNextCalculationResult(previousCalculationResultDTO);
 
-    var actual = _calculationService.GetNextCalculationResult(previousCalculationResultDTO);
+    var expected = nextCalculationResult.ToCalculationResultDTO(_calculationId);
 
-    Assert.Equal(nextCalculationResultDTO, actual);
+    Assert.Equal(expected, actual);
   }
 
   private class GetNextCalculationResultTestTheoryDataForCallsOnce : TheoryData<BigInteger, BigInteger>

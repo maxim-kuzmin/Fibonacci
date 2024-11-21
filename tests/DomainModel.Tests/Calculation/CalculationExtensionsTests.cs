@@ -13,13 +13,13 @@ public class CalculationExtensionsTests
     BigInteger input,
     BigInteger output)
   {
-    SerializableCalculationResult serializableCalculationResult = new(serializableInput, serializableOutput);
+    SerializableCalculationResult sut = new(serializableInput, serializableOutput);
 
-    CalculationResult calculationResult = new(input, output);
+    var actual = sut.ToCalculationResult();
 
-    var actual = serializableCalculationResult.ToCalculationResult();
+    CalculationResult expected = new(input, output);
 
-    Assert.Equal(calculationResult, actual);
+    Assert.Equal(expected, actual);
   }
 
   [Theory]
@@ -30,13 +30,13 @@ public class CalculationExtensionsTests
     BigInteger input,
     BigInteger output)
   {
-    SerializableCalculationResult serializableCalculationResult = new(serializableInput, serializableOutput);
+    CalculationResult sut = new(input, output);
 
-    CalculationResult calculationResult = new(input, output);
+    var actual = sut.ToSerializableCalculationResult();
 
-    var actual = calculationResult.ToSerializableCalculationResult();
+    SerializableCalculationResult expected = new(serializableInput, serializableOutput);
 
-    Assert.Equal(serializableCalculationResult, actual);
+    Assert.Equal(expected, actual);
   }
 
   private class TestTheoryData : TheoryData<string, string, BigInteger, BigInteger>

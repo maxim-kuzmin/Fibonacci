@@ -2,7 +2,7 @@
 
 public class CalculationLogicServiceTests
 {
-  private readonly CalculationLogicService _calculationLogicService = new();
+  private readonly CalculationLogicService _sut = new();
 
   [Theory]
   [InlineData(-1, 0)]
@@ -12,16 +12,22 @@ public class CalculationLogicServiceTests
     BigInteger output)
   {
     var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-      _calculationLogicService.GetNextCalculationResult(new CalculationResult(input, output)));
+      _sut.GetNextCalculationResult(new CalculationResult(input, output)));
+
+    var actual = ex.ParamName;
 
     if (input < 0)
     {
-      Assert.Equal(nameof(CalculationResult.Input), ex.ParamName);
+      string expected = nameof(CalculationResult.Input);
+
+      Assert.Equal(expected, actual);
     }
 
     if (output < 0)
     {
-      Assert.Equal(nameof(CalculationResult.Output), ex.ParamName);
+      string expected = nameof(CalculationResult.Output);
+
+      Assert.Equal(expected, actual);
     }
   }
 
@@ -35,16 +41,18 @@ public class CalculationLogicServiceTests
 
     ArrangeCalculationLogicService(data.PreviousCalculationResults.Select(x => x.ToCalculationResult()));
 
-    var actual = _calculationLogicService.GetNextCalculationResult(data.PreviousCalculationResult.ToCalculationResult());
+    var actual = _sut.GetNextCalculationResult(data.PreviousCalculationResult.ToCalculationResult());
 
-    Assert.Equal(data.NextCalculationResult.ToCalculationResult(), actual);
+    var expected = data.NextCalculationResult.ToCalculationResult();
+
+    Assert.Equal(expected, actual);
   }
 
   private void ArrangeCalculationLogicService(IEnumerable<CalculationResult> previousCalculationResults)
   {
     foreach (var previousCalculationResult in previousCalculationResults)
     {
-      _calculationLogicService.GetNextCalculationResult(previousCalculationResult);
+      _sut.GetNextCalculationResult(previousCalculationResult);
     }
   }
 

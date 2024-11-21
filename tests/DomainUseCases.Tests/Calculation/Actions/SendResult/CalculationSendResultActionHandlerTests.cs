@@ -2,11 +2,11 @@
 
 public class CalculationSendResultActionHandlerTests
 {
+  private readonly CalculationSendResultActionHandler _sut;
+
   private readonly Mock<ICalculationClient> _calculationClientMock = new();
 
   private readonly Mock<ICalculationPublisher> _calculationPublisherMock = new();
-
-  private readonly CalculationSendResultActionHandler _calculationSendResultActionHandler;
 
   private static readonly CalculationResult _previousCalculationResult = new(0, 0);
 
@@ -16,7 +16,7 @@ public class CalculationSendResultActionHandlerTests
 
   public CalculationSendResultActionHandlerTests()
   {
-    _calculationSendResultActionHandler = new(_calculationClientMock.Object, _calculationPublisherMock.Object);
+    _sut = new(_calculationClientMock.Object, _calculationPublisherMock.Object);
 
     _calculationClientMock.Setup(x => x.GetNextCalculationResult(_calculationId, _previousCalculationResult))
       .Returns(_nextCalculationResult);
@@ -34,7 +34,7 @@ public class CalculationSendResultActionHandlerTests
 
     CalculationResult previousCalculationResult = command.ToCalculationResult();
 
-    await _calculationSendResultActionHandler.Handle(command, CancellationToken.None);
+    await _sut.Handle(command, CancellationToken.None);
 
     _calculationClientMock.Verify(
       x => x.GetNextCalculationResult(_calculationId, previousCalculationResult),
@@ -55,7 +55,7 @@ public class CalculationSendResultActionHandlerTests
 
     CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    await _calculationSendResultActionHandler.Handle(command, CancellationToken.None);
+    await _sut.Handle(command, CancellationToken.None);
 
     _calculationPublisherMock.Verify(
       x => x.PublishNextCalculationResult(_calculationId, nextCalculationResult),

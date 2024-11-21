@@ -10,69 +10,69 @@ public class CalculationExtensionsTests
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResult_CalculationResultDTO_ReturnsCalculationResult(
-    string dtoInput,
-    string dtoOutput,
-    BigInteger input,
-    BigInteger output)
+    string sutInput,
+    string sutOutput,
+    BigInteger expectedInput,
+    BigInteger expectedOutput)
   {
-    CalculationResultDTO dto = new(_calculationId, new(dtoInput, dtoOutput));
+    CalculationResultDTO sut = new(_calculationId, new(sutInput, sutOutput));
 
-    CalculationResult calculationResult = new(input, output);
+    var actual = sut.ToCalculationResult();
 
-    var actual = dto.ToCalculationResult();
+    CalculationResult expected = new(expectedInput, expectedOutput);
 
-    Assert.Equal(calculationResult, actual);
+    Assert.Equal(expected, actual);
   }
 
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResult_CalculationSendResultActionCommand_ReturnsCalculationResult(
-    string commandInput,
-    string commandOutput,
-    BigInteger input,
-    BigInteger output)
+    string sutInput,
+    string sutOutput,
+    BigInteger expectedInput,
+    BigInteger expectedOutput)
   {
-    CalculationSendResultActionCommand command = new(_calculationId, new(commandInput, commandOutput));
+    CalculationSendResultActionCommand sut = new(_calculationId, new(sutInput, sutOutput));
 
-    CalculationResult calculationResult = new(input, output);
+    var actual = sut.ToCalculationResult();
 
-    var actual = command.ToCalculationResult();
+    CalculationResult expected = new(expectedInput, expectedOutput);
 
-    Assert.Equal(calculationResult, actual);
+    Assert.Equal(expected, actual);
   }
 
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationResultDTO(
-    string dtoInput,
-    string dtoOutput,
-    BigInteger input,
-    BigInteger output)
+    string expectedInput,
+    string expectedOutput,
+    BigInteger sutInput,
+    BigInteger sutOutput)
   {
-    CalculationResultDTO dto = new(_calculationId, new(dtoInput, dtoOutput));
+    CalculationResult sut = new(sutInput, sutOutput);
 
-    CalculationResult calculationResult = new(input, output);
+    var actual = sut.ToCalculationResultDTO(_calculationId);
 
-    var actual = calculationResult.ToCalculationResultDTO(_calculationId);
+    CalculationResultDTO expected = new(_calculationId, new(expectedInput, expectedOutput));
 
-    Assert.Equal(dto, actual);
+    Assert.Equal(expected, actual);
   }
 
   [Theory]
   [ClassData(typeof(TestTheoryData))]
   public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationSendResultActionCommand(
-    string commandInput,
-    string commandOutput,
-    BigInteger input,
-    BigInteger output)
+    string expectedInput,
+    string expectedOutput,
+    BigInteger sutInput,
+    BigInteger sutOutput)
   {
-    CalculationSendResultActionCommand command = new(_calculationId, new(commandInput, commandOutput));
+    CalculationResult sut = new(sutInput, sutOutput);
 
-    CalculationResult calculationResult = new(input, output);
+    var actual = sut.ToCalculationSendResultActionCommand(_calculationId);
 
-    var actual = calculationResult.ToCalculationSendResultActionCommand(_calculationId);
+    CalculationSendResultActionCommand expected = new(_calculationId, new(expectedInput, expectedOutput));
 
-    Assert.Equal(command, actual);
+    Assert.Equal(expected, actual);
   }
 
   private class TestTheoryData : TheoryData<string, string, BigInteger, BigInteger>
