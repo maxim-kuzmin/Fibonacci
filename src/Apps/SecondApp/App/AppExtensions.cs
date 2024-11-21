@@ -6,13 +6,13 @@
 public static class AppExtensions
 {
   /// <summary>
-  /// Добавить уровень хоста приложения.
+  /// Добавить уровень пользовательского интерфейса приложения.
   /// </summary>
   /// <param name="services">Сервисы.</param>
   /// <param name="logger">Логгер.</param>
   /// <param name="appConfigSection">Раздел конфигурации приложения.</param>
   /// <returns>Сервисы.</returns>
-  public static IServiceCollection AddAppHostLayer(
+  public static IServiceCollection AddAppUILayer(
     this IServiceCollection services,
     ILogger logger,
     IConfigurationSection appConfigSection)
@@ -24,7 +24,7 @@ public static class AppExtensions
 
     services.AddSingleton<ICalculationPublisher, CalculationPublisher>();
 
-    logger.LogInformation("{Layer} layer added", nameof(SecondApp));
+    logger.LogInformation("UI layer added");
 
     return services;
   }
@@ -63,7 +63,7 @@ public static class AppExtensions
       .WithName(nameof(CalculationSendResult))
       .WithOpenApi();
 
-    logger.LogInformation("{Layer} layer used", nameof(AppHost));
+    logger.LogInformation("UI layer used");
 
     return app;
   }

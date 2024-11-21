@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.Calculation;
+﻿namespace Fibonacci.DomainUseCases.Calculation;
 
 /// <summary>
 /// Клиент расчёта.

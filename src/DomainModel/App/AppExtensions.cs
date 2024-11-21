@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.DomainUseCases.App;
+﻿namespace Fibonacci.DomainModel.App;
 
 /// <summary>
 /// Расширения приложения.
@@ -11,15 +11,13 @@ public static class AppExtensions
   /// <param name="services">Сервисы.</param>
   /// <param name="logger">Логгер.</param>
   /// <returns>Сервисы.</returns>
-  public static IServiceCollection AddAppDomainUseCasesLayer(
+  public static IServiceCollection AddAppDomainModelLayer(
     this IServiceCollection services,
     ILogger logger)
   {
-    services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+    services.AddTransient<ICalculationLogicServiceFactory, CalculationLogicServiceFactory>();    
 
-    services.AddSingleton<ICalculationClient, CalculationClient>();      
-
-    logger.LogInformation("DomainUseCases layer added");
+    logger.LogInformation("DomainModel layer added");
 
     return services;
   }

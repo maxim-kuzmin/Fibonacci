@@ -1,6 +1,7 @@
 ﻿global using Fibonacci.Apps.FirstApp.App;
 global using Fibonacci.Apps.FirstApp.App.Config;
 global using Fibonacci.Apps.FirstApp.Calculation;
+global using Fibonacci.DomainModel.App;
 global using Fibonacci.DomainModel.Calculation;
 global using Fibonacci.DomainModel.Calculation.Subscriber;
 global using Fibonacci.DomainUseCases.App;

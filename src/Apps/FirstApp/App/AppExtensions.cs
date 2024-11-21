@@ -6,7 +6,7 @@
 public static class AppExtensions
 {
   /// <summary>
-  /// Добавить уровень хоста приложения.
+  /// Добавить уровень пользовательского интерфейса приложения.
   /// </summary>
   /// <param name="services">Сервисы.</param>
   /// <param name="logger">Логгер.</param>
@@ -14,7 +14,7 @@ public static class AppExtensions
   /// <param name="appConfigSection">Раздел конфигурации приложения.</param>
   /// <param name="calculationCount">Количество расчётов.</param>
   /// <returns>Сервисы.</returns>
-  public static IServiceCollection AddAppHostLayer(
+  public static IServiceCollection AddAppUILayer(
     this IServiceCollection services,
     ILogger logger,
     AppConfigOptions appConfigOptions,
@@ -43,9 +43,9 @@ public static class AppExtensions
         });
 
     services.AddSingleton<ICalculationSubscriberFactory, CalculationSubscriberFactory>();
-    // //makc// services.AddSingleton<ICalculationSubscriberFactory, Infrastructure.Calculation.Fakes.CalculationSubscriberFactoryFake>();
+    // //makc// services.AddSingleton<ICalculationSubscriberFactory, Calculation.Fakes.CalculationSubscriberFactoryFake>();
 
-    logger.LogInformation("{Layer} layer added", nameof(AppHost));
+    logger.LogInformation("UI layer added");
 
     return services;
   }

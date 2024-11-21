@@ -26,10 +26,11 @@ public class AppHost
 
       int calculationCount = GetCalculationCount(args, 1);
 
-      builder.Services
-        .AddAppHostLayer(logger, appConfigOptions, appConfigSection, calculationCount)
+      builder.Services        
+        .AddAppDomainModelLayer(logger)
         .AddAppDomainUseCasesLayer(logger)
-        .AddAppInfrastructureLayer(logger, builder.Configuration, appConfigOptions.RabbitMQ);
+        .AddAppInfrastructureLayer(logger, builder.Configuration, appConfigOptions.RabbitMQ)
+        .AddAppUILayer(logger, appConfigOptions, appConfigSection, calculationCount);
 
       var app = builder.Build();
 

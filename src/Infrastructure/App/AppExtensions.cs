@@ -24,11 +24,10 @@ public static class AppExtensions
     services.AddEasyNetQ($"host={appConfigOptionsRabbitMQ.Hostname}:{appConfigOptionsRabbitMQ.Port};username={appConfigOptionsRabbitMQ.Username};password={appConfigOptionsRabbitMQ.Password}")
       .UseSystemTextJson();
 
-    services.AddTransient<ICalculationService, CalculationService>();
-    services.AddSingleton<ICalculationClient, CalculationClient>();
     services.AddSingleton<ICalculationPublisher, CalculationPublisher>();
+    services.AddTransient<ICalculationService, CalculationService>();
 
-    logger.LogInformation("{Layer} layer added", nameof(Infrastructure));
+    logger.LogInformation("Infrastructure layer added");
 
     return services;
   }

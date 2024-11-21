@@ -25,9 +25,10 @@ public class AppHost
       var appConfigOptions = appConfigSection.CreateAppConfigOptions();
 
       builder.Services
-        .AddAppHostLayer(logger, appConfigSection)
+        .AddAppDomainModelLayer(logger)
         .AddAppDomainUseCasesLayer(logger)
-        .AddAppInfrastructureLayer(logger, builder.Configuration, appConfigOptions.RabbitMQ);
+        .AddAppInfrastructureLayer(logger, builder.Configuration, appConfigOptions.RabbitMQ)
+        .AddAppUILayer(logger, appConfigSection);
 
       var app = builder.Build();
 
