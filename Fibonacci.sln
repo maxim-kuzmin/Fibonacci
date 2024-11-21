@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B9EAC11D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.Tests", "tests\DomainModel.Tests\Fibonacci.DomainModel.Tests.csproj", "{931CF510-D5E0-4F62-9930-8F1D2728E422}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainUseCases.Tests", "tests\Fibonacci.DomainUseCases.Tests\Fibonacci.DomainUseCases.Tests.csproj", "{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainUseCases.Tests", "tests\DomainUseCases.Tests\Fibonacci.DomainUseCases.Tests.csproj", "{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
