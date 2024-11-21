@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B9EAC11D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.Tests", "tests\DomainModel.Tests\Fibonacci.DomainModel.Tests.csproj", "{931CF510-D5E0-4F62-9930-8F1D2728E422}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainUseCases.Tests", "tests\Fibonacci.DomainUseCases.Tests\Fibonacci.DomainUseCases.Tests.csproj", "{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{931CF510-D5E0-4F62-9930-8F1D2728E422}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{931CF510-D5E0-4F62-9930-8F1D2728E422}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{931CF510-D5E0-4F62-9930-8F1D2728E422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{4610F442-9D54-444D-93B2-709FF9E5E336} = {C95B1DF6-1E8C-4F21-926F-E89233EDEC73}
 		{4048269C-7DA0-4C29-A7A5-B651FE3245CB} = {C95B1DF6-1E8C-4F21-926F-E89233EDEC73}
 		{931CF510-D5E0-4F62-9930-8F1D2728E422} = {B9EAC11D-B2F7-4BD2-BDAB-D153CCAF4A75}
+		{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD} = {B9EAC11D-B2F7-4BD2-BDAB-D153CCAF4A75}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F758CF58-3216-404A-9899-EE5D51CAF418}

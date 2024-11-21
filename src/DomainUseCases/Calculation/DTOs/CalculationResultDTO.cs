@@ -7,4 +7,5 @@
 /// <param name="CalculationId">Идентификатор расчёта.</param>
 /// <param name="Input">Входные данные.</param>
 /// <param name="Output">Выходные данные.</param>
-public record CalculationResultDTO(Guid CalculationId, string Input, string Output);
+public record CalculationResultDTO(Guid CalculationId, string Input, string Output) :
+  SerializableCalculationResult(Input, Output);

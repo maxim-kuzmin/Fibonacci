@@ -11,8 +11,6 @@ public class CalculationService(ICalculationLogicServiceFactory _calculationLogi
   /// <inheritdoc/>
   public CalculationResultDTO GetNextCalculationResult(CalculationResultDTO calculationResultDTO)
   {
-    ArgumentNullException.ThrowIfNull(calculationResultDTO);
-
     var calculationLogicService = _calculationLogicServiceLookup.GetOrAdd(
       calculationResultDTO.CalculationId,
       _ => _calculationLogicServiceFactory.CreateCalculationLogicService());

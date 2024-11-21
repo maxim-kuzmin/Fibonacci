@@ -9,8 +9,6 @@ public class CalculationClient(ICalculationService _calculationService) : ICalcu
   /// <inheritdoc/>
   public CalculationResult GetNextCalculationResult(Guid calculationId, CalculationResult previousCalculationResult)
   {
-    ArgumentNullException.ThrowIfNull(previousCalculationResult);
-
     var calculationResultDTO = previousCalculationResult.ToCalculationResultDTO(calculationId);
 
     calculationResultDTO = _calculationService.GetNextCalculationResult(calculationResultDTO);

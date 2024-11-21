@@ -26,12 +26,12 @@ public class CalculationLogicServiceTests
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultFirstAppTheoryData))]
-  [ClassData(typeof(GetNextCalculationResultSecondAppTheoryData))]
+  [ClassData(typeof(FirstAppGetNextCalculationResultTestTheoryData))]
+  [ClassData(typeof(SecondAppGetNextCalculationResultTestTheoryData))]
   public void GetNextCalculationResult_ValidPreviousCalculationResult_ReturnsNextCalculationResult(
     string serializedData)
   {
-    var data = GetNextCalculationResultTheoryData.ParseData(serializedData);
+    var data = GetNextCalculationResultTestTheoryData.ParseData(serializedData);
 
     ArrangeCalculationLogicService(data.PreviousCalculationResults.Select(x => x.ToCalculationResult()));
 
@@ -48,9 +48,9 @@ public class CalculationLogicServiceTests
     }
   }
 
-  private class GetNextCalculationResultFirstAppTheoryData : GetNextCalculationResultTheoryData
+  private class FirstAppGetNextCalculationResultTestTheoryData : GetNextCalculationResultTestTheoryData
   {
-    public GetNextCalculationResultFirstAppTheoryData()
+    public FirstAppGetNextCalculationResultTestTheoryData()
     {
       AddData(
         [new(0, 0), new(2, 1), new(4, 3)],
@@ -58,9 +58,9 @@ public class CalculationLogicServiceTests
     }
   }
 
-  private class GetNextCalculationResultSecondAppTheoryData : GetNextCalculationResultTheoryData
+  private class SecondAppGetNextCalculationResultTestTheoryData : GetNextCalculationResultTestTheoryData
   {
-    public GetNextCalculationResultSecondAppTheoryData()
+    public SecondAppGetNextCalculationResultTestTheoryData()
     {
       AddData(
         [new(1, 1), new(3, 2), new(5, 5)],
@@ -68,42 +68,29 @@ public class CalculationLogicServiceTests
     }
   }
 
-  private class GetNextCalculationResultTheoryData : TheoryData<string>
+  private class GetNextCalculationResultTestTheoryData : TheoryData<string>
   {
     protected void AddData(CalculationResult[] previousCalculationResults, CalculationResult[] nextCalculationResults)
     {
       for (int i = 0; i < previousCalculationResults.Length; i++)
       {
-        GetNextCalculationResultData data = new(
-          TestCalculationResult.FromCalculationResult(previousCalculationResults[i]),
-          TestCalculationResult.FromCalculationResult(nextCalculationResults[i]),
-          previousCalculationResults[..i].Select(x => TestCalculationResult.FromCalculationResult(x)).ToArray());
+        GetNextCalculationResultTestData data = new(
+          previousCalculationResults[i].ToSerializableCalculationResult(),
+          nextCalculationResults[i].ToSerializableCalculationResult(),
+          previousCalculationResults[..i].Select(x => x.ToSerializableCalculationResult()).ToArray());
 
         Add(JsonSerializer.Serialize(data));
       }
     }
 
-    public static GetNextCalculationResultData ParseData(string serializedData)
+    public static GetNextCalculationResultTestData ParseData(string serializedData)
     {
-      return JsonSerializer.Deserialize<GetNextCalculationResultData>(serializedData)!;
+      return JsonSerializer.Deserialize<GetNextCalculationResultTestData>(serializedData)!;
     }
   }
 
-  private record GetNextCalculationResultData(
-    TestCalculationResult PreviousCalculationResult,
-    TestCalculationResult NextCalculationResult,
-    IEnumerable<TestCalculationResult> PreviousCalculationResults);
-
-  private record TestCalculationResult(string Input, string Output)
-  {
-    public CalculationResult ToCalculationResult()
-    {
-      return new CalculationResult(BigInteger.Parse(Input), BigInteger.Parse(Output));
-    }
-
-    public static TestCalculationResult FromCalculationResult(CalculationResult calculationResult)
-    {
-      return new TestCalculationResult(calculationResult.Input.ToString(), calculationResult.Output.ToString());
-    }
-  }
+  private record GetNextCalculationResultTestData(
+    SerializableCalculationResult PreviousCalculationResult,
+    SerializableCalculationResult NextCalculationResult,
+    IEnumerable<SerializableCalculationResult> PreviousCalculationResults);
 }
