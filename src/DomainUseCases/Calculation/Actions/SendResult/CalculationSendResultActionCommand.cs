@@ -7,5 +7,5 @@
 /// <param name="Input">Входные данные.</param>
 /// <param name="Output">Выходные данные.</param>
 public record CalculationSendResultActionCommand(Guid CalculationId, string Input, string Output) :
-  CalculationResultDTO(CalculationId, Input, Output),
+  CalculationResultDTO(CalculationId, new SerializableCalculationResult(Input, Output)),
   IRequest;

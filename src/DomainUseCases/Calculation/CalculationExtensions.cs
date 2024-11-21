@@ -12,7 +12,7 @@ public static class CalculationExtensions
   /// <returns>Результат расчёта.</returns>
   public static CalculationResult ToCalculationResult(this CalculationResultDTO calculationResultDTO)
   {
-    return new(BigInteger.Parse(calculationResultDTO.Input), BigInteger.Parse(calculationResultDTO.Output));
+    return calculationResultDTO.CalculationResult.ToCalculationResult();
   }
 
   /// <summary>
@@ -25,6 +25,6 @@ public static class CalculationExtensions
     this CalculationResult calculationResult,
     Guid calculationId)
   {
-    return new(calculationId, calculationResult.Input.ToString(), calculationResult.Output.ToString());
+    return new(calculationId, calculationResult.ToSerializableCalculationResult());
   }
 }
