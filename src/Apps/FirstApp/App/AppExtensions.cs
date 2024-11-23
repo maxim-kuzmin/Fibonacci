@@ -30,7 +30,7 @@ public static class AppExtensions
     services.AddHostedService<CalculationWorker>();
 
     services.AddHttpClient(
-        AppSettings.CalculationPublisherHttpClientName,
+        AppSettings.CalculationNextResultPublisherHttpClientName,
         client =>
         {
           client.BaseAddress = new Uri(appConfigOptions.SecondAppUrl);
@@ -41,9 +41,11 @@ public static class AppExtensions
         {
           ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         });
+    
+    services.AddSingleton<ICalculationResultConsumerFactory, CalculationResultConsumerFactory>();
+    // //makc// services.AddSingleton<ICalculationResultConsumerFactory, CalculationResultConsumerFactoryFake>();
 
-    services.AddSingleton<ICalculationSubscriberFactory, CalculationSubscriberFactory>();
-    // //makc// services.AddSingleton<ICalculationSubscriberFactory, CalculationLocalSubscriberFactory>();
+    services.AddTransient<ICalculationNextResultPublisher, CalculationNextResultPublisher>();
 
     logger.LogInformation("UI layer added");
 

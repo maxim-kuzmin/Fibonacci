@@ -6,9 +6,9 @@
 public static class AppSettings
 {
   /// <summary>
-  /// Имя HTTP-клиента издателя расчёта.
+  /// Имя HTTP-клиента публикатора следующего результата расчёта.
   /// </summary>
-  public const string CalculationPublisherHttpClientName = "CalculationPublisher";
+  public const string CalculationNextResultPublisherHttpClientName = "CalculationNextResultPublisher";
 
   /// <summary>
   /// URL отправки результата расчёта.

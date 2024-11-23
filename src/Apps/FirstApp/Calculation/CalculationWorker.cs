@@ -6,12 +6,12 @@
 /// <param name="_logger">Логгер.</param>
 /// <param name="_calculationCount">Количество расчётов.</param>
 /// <param name="_calculationClient">Клиент расчёта.</param>
-/// <param name="_calculationSubscriberFactory">Фабрика подписчиков расчёта.</param>
+/// <param name="_calculationConsumerFactory">Фабрика подписчиков расчёта.</param>
 public class CalculationWorker(
   ILogger<CalculationWorker> _logger,
   CalculationCount _calculationCount,
   ICalculationClient _calculationClient,
-  ICalculationSubscriberFactory _calculationSubscriberFactory) : BackgroundService
+  ICalculationResultConsumerFactory _calculationConsumerFactory) : BackgroundService
 {
   /// <inheritdoc/>
   protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -38,7 +38,7 @@ public class CalculationWorker(
 
     CalculationResult calculationResult = new(0, 0);
 
-    var calculationSubscriber = _calculationSubscriberFactory.CreateCalculationSubscriber(calculationId);
+    var calculationConsumer = _calculationConsumerFactory.CreateCalculationResultConsumer(calculationId);
 
     while (!cancellationToken.IsCancellationRequested)
     // //makc// for (var i = 0; i < 10; i++)
@@ -47,7 +47,7 @@ public class CalculationWorker(
 
       Display(calculationId, calculationResult);
 
-      calculationResult = await calculationSubscriber.GetNextCalculationResult(calculationResult, cancellationToken);
+      calculationResult = await calculationConsumer.GetNextCalculationResult(calculationResult, cancellationToken);
 
       Display(calculationId, calculationResult);
     }

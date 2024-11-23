@@ -4,19 +4,25 @@
 /// Обработчик действия по отправке результата расчёта.
 /// </summary>
 /// <param name="_calculationClient">Клиент расчёта.</param>
-/// <param name="_calculationPublisher">Издатель расчёта.</param>
+/// <param name="_calculationCurrentResultPublisher">Публикатор текущего результата расчёта.</param>
 public class CalculationSendResultActionHandler(
   ICalculationClient _calculationClient,
-  ICalculationPublisher _calculationPublisher) : IRequestHandler<CalculationSendResultActionCommand>
+  ICalculationCurrentResultPublisher _calculationCurrentResultPublisher) :
+  IRequestHandler<CalculationSendResultActionCommand>
 {
   /// <inheritdoc/>
   public async Task Handle(CalculationSendResultActionCommand request, CancellationToken cancellationToken)
   {
-    var calculationResult = request.ToCalculationResult();
+    var сalculationResult = request.ToCalculationResult();
 
-    calculationResult = _calculationClient.GetNextCalculationResult(request.CalculationId, calculationResult);
+    сalculationResult = _calculationClient.GetNextCalculationResult(
+      request.CalculationId,
+      сalculationResult);
 
-    var publishTask = _calculationPublisher.PublishNextCalculationResult(request.CalculationId, calculationResult);
+    var publishTask = _calculationCurrentResultPublisher.PublishCalculationResult(
+      request.CalculationId,
+      сalculationResult,
+      cancellationToken);
 
     await publishTask.ConfigureAwait(false);
   }

@@ -6,7 +6,7 @@ public class CalculationSendResultActionHandlerTests
 
   private readonly Mock<ICalculationClient> _calculationClientMock = new();
 
-  private readonly Mock<ICalculationPublisher> _calculationPublisherMock = new();
+  private readonly Mock<ICalculationNextResultPublisher> _calculationPublisherViaAppBusMock = new();
 
   private static readonly CalculationResult _previousCalculationResult = new(0, 0);
 
@@ -16,7 +16,7 @@ public class CalculationSendResultActionHandlerTests
 
   public CalculationSendResultActionHandlerTests()
   {
-    _sut = new(_calculationClientMock.Object, _calculationPublisherMock.Object);
+    _sut = new(_calculationClientMock.Object, _calculationPublisherViaAppBusMock.Object);
 
     _calculationClientMock.Setup(x => x.GetNextCalculationResult(_calculationId, _previousCalculationResult))
       .Returns(_nextCalculationResult);
@@ -57,8 +57,8 @@ public class CalculationSendResultActionHandlerTests
 
     await _sut.Handle(command, CancellationToken.None);
 
-    _calculationPublisherMock.Verify(
-      x => x.PublishNextCalculationResult(_calculationId, nextCalculationResult),
+    _calculationPublisherViaAppBusMock.Verify(
+      x => x.PublishCalculationResult(_calculationId, nextCalculationResult, CancellationToken.None),
       Times.Once());
   }
 

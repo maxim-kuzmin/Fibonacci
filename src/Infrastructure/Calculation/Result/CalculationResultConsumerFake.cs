@@ -1,12 +1,13 @@
-﻿namespace Fibonacci.Infrastructure.Calculation.Local;
+﻿namespace Fibonacci.Infrastructure.Calculation.Result;
 
 /// <summary>
-/// Локальный подписчик расчёта. Нужен для получения результата расчёта без использования очереди сообщений.
+/// Подделка потребителя результата расчёта.
+/// Нужна для получения результата расчёта без использования очереди сообщений.
 /// </summary>
 /// <param name="_calculationId">Идентификатор расчёта.</param>
 /// <param name="_calculationService">Сервис расчёта.</param>
-public class CalculationLocalSubscriber(Guid _calculationId, ICalculationService _calculationService) :
-  ICalculationSubscriber
+public class CalculationResultConsumerFake(Guid _calculationId, ICalculationService _calculationService) :
+  ICalculationResultConsumer
 {
   private readonly CalculationClient _calculationClient = new(_calculationService);
 
@@ -14,7 +15,7 @@ public class CalculationLocalSubscriber(Guid _calculationId, ICalculationService
   public Task<CalculationResult> GetNextCalculationResult(
     CalculationResult previousCalculationResult,
     CancellationToken cancellationToken)
-  { 
+  {
     var calculationResult = _calculationClient.GetNextCalculationResult(_calculationId, previousCalculationResult);
 
     return Task.FromResult(calculationResult);

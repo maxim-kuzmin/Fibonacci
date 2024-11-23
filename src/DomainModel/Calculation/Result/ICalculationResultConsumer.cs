@@ -1,9 +1,9 @@
-﻿namespace Fibonacci.DomainModel.Calculation;
+﻿namespace Fibonacci.DomainModel.Calculation.Result;
 
 /// <summary>
-/// Интерфейс подписчика расчёта. Нужен для получения результата расчёта из очереди сообщений.
+/// Интерфейс потребителя результата расчёта.
 /// </summary>
-public interface ICalculationSubscriber
+public interface ICalculationResultConsumer
 {
   /// <summary>
   /// Получить результат следующего расчёта на основании результата предыдущего.
