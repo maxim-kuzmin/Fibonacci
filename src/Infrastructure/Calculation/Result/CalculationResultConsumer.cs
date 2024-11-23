@@ -4,11 +4,11 @@
 /// Потребитель результата расчёта. Нужен для получения результата расчёта из очереди сообщений.
 /// </summary>
 /// <param name="_calculationId">Идентификатор расчёта.</param>
-/// <param name="_appMessageBus">Шина сообщений приложения.</param>
+/// <param name="_appBus">Шина приложения.</param>
 /// <param name="_сalculationNextResultPublisher">Публикатор следующего результата расчёта.</param>
 public class CalculationResultConsumer(
   Guid _calculationId,
-  IAppBus _appMessageBus,
+  IAppBus _appBus,
   ICalculationNextResultPublisher _сalculationNextResultPublisher) : ICalculationResultConsumer
 {
   private TaskCompletionSource<CalculationResult> _taskCompletionSource = null!;
@@ -40,7 +40,7 @@ public class CalculationResultConsumer(
   {
     if (!_isSubscribed && !cancellationToken.IsCancellationRequested)
     {
-      await _appMessageBus.Subscribe<CalculationResultDTO>(_calculationId.ToString(), OnMessage, cancellationToken);
+      await _appBus.Subscribe<CalculationResultDTO>(_calculationId.ToString(), OnMessage, cancellationToken);
 
       _isSubscribed = true;
     }

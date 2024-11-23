@@ -6,13 +6,13 @@ public class CalculationResultConsumerFactoryTests
 
   private readonly Mock<IAppBus> _appBusMock = new();
 
-  private readonly Mock<ICalculationCurrentResultPublisher> _сalculationPublisherMock = new();
+  private readonly Mock<ICalculationNextResultPublisher> _сalculationNextResultPublisherMock = new();
 
   private static readonly Guid _calculationId = Guid.NewGuid();
 
   public CalculationResultConsumerFactoryTests()
   {
-    _sut = new(_appBusMock.Object, _сalculationPublisherMock.Object);
+    _sut = new(_appBusMock.Object, _сalculationNextResultPublisherMock.Object);
   }
 
   [Fact]
