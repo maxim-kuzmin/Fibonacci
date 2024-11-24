@@ -1,7 +1,8 @@
 ﻿namespace Fibonacci.Infrastructure.Calculation.Result;
 
 /// <summary>
-/// Потребитель результата расчёта. Нужен для получения результата расчёта из очереди сообщений.
+/// Потребитель результата расчёта.
+/// Нужен для получения результата расчёта из шины приложения.
 /// </summary>
 /// <param name="_calculationId">Идентификатор расчёта.</param>
 /// <param name="_appBus">Шина приложения.</param>
@@ -22,7 +23,7 @@ public class CalculationResultConsumer(
   {
     _taskCompletionSource = new TaskCompletionSource<CalculationResult>();
 
-    Task.Run(() => SubscribeAndSendCalculationResult(previousCalculationResult, cancellationToken), cancellationToken);
+    Task.Run(() => SubscribeAndPublish(previousCalculationResult, cancellationToken), cancellationToken);
 
     return _taskCompletionSource.Task;
   }
@@ -34,9 +35,7 @@ public class CalculationResultConsumer(
     return Task.CompletedTask;
   }
 
-  private async Task SubscribeAndSendCalculationResult(
-    CalculationResult calculationResult,
-    CancellationToken cancellationToken)
+  private async Task SubscribeAndPublish(CalculationResult calculationResult, CancellationToken cancellationToken)
   {
     if (!_isSubscribed && !cancellationToken.IsCancellationRequested)
     {

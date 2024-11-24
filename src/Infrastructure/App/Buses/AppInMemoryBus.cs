@@ -5,7 +5,7 @@
 /// </summary>
 public class AppInMemoryBus : IAppBus
 {
-  private readonly Dictionary<Type, Dictionary<string, object>> _channelsLookup = new();
+  private readonly Dictionary<Type, Dictionary<string, object>> _channelsLookup = [];
 
   public Task Publish<TMessage>(string subscriberId, TMessage message, CancellationToken cancellationToken)
   {
