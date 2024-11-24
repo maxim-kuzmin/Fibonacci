@@ -40,17 +40,21 @@ public class CalculationResultConsumer(
   {
     if (!_isSubscribed && !cancellationToken.IsCancellationRequested)
     {
-      await _appBus.Subscribe<CalculationResultDTO>(_calculationId.ToString(), OnMessage, cancellationToken);
+      var task = _appBus.Subscribe<CalculationResultDTO>(_calculationId.ToString(), OnMessage, cancellationToken);
+
+      await task.ConfigureAwait(false);
 
       _isSubscribed = true;
     }
 
     if (!cancellationToken.IsCancellationRequested)
     {
-      await _сalculationNextResultPublisher.PublishCalculationResult(
+      var task = _сalculationNextResultPublisher.PublishCalculationResult(
         _calculationId,
         calculationResult,
         cancellationToken);
+
+      await task.ConfigureAwait(false);
     }
   }
 }

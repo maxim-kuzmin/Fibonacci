@@ -1,10 +1,11 @@
-﻿namespace Fibonacci.Infrastructure.Calculation.Result.Publishers;
+﻿namespace Fibonacci.Infrastructure.Calculation.Result.Publishers.Next;
 
 /// <summary>
-/// Публикатор следующего результата расчёта.
+/// Публикатор следующего результата расчёта с помощью HTTP-клиента.
 /// </summary>
-/// <param name="_httpClientFactory">Шина приложения.</param>
-public class CalculationNextResultPublisher(IHttpClientFactory _httpClientFactory) : ICalculationNextResultPublisher
+/// <param name="_httpClientFactory">Фабрика HTTP-клиентов.</param>
+public class CalculationHttpClientNextResultPublisher(IHttpClientFactory _httpClientFactory) :
+  ICalculationNextResultPublisher
 {
   /// <inheritdoc/>
   public async Task PublishCalculationResult(

@@ -5,7 +5,7 @@
 /// </summary>
 public class AppInMemoryBus : IAppBus
 {
-  private readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, object>> _channelsLookup = new();
+  private readonly Dictionary<Type, Dictionary<string, object>> _channelsLookup = new();
 
   public Task Publish<TMessage>(string subscriberId, TMessage message, CancellationToken cancellationToken)
   {
@@ -21,35 +21,61 @@ public class AppInMemoryBus : IAppBus
     Func<TMessage, CancellationToken, Task> onMessage,
     CancellationToken cancellationToken)
   {
-    var channel = GetChannel<TMessage>(subscriberId);
+    TaskCompletionSource tcs = new();
 
-    Task.Run(() => Consume(channel.Reader, onMessage, cancellationToken), cancellationToken);
-    
-    return Task.CompletedTask;
+    Task.Run(() => Consume(tcs, subscriberId, onMessage, cancellationToken), cancellationToken);
+
+    return tcs.Task;
   }
 
-  private static async Task Consume<TMessage>(
-    ChannelReader<TMessage> reader,
+  private async Task Consume<TMessage>(
+    TaskCompletionSource tcs,
+    string subscriberId,
     Func<TMessage, CancellationToken, Task> onMessage,
     CancellationToken cancellationToken)
   {
-    await foreach (var message in reader.ReadAllAsync(cancellationToken))
+    var channel = GetChannel<TMessage>(subscriberId);
+
+    tcs.SetResult();
+
+    await foreach (var message in channel.Reader.ReadAllAsync(cancellationToken).ConfigureAwait(false))
     {
-      await onMessage(message, cancellationToken);
+      await onMessage(message, cancellationToken).ConfigureAwait(false);
     }
   }
 
   private Channel<TMessage> GetChannel<TMessage>(string subscriptionId)
   {
-    var channelLookup = _channelsLookup.GetOrAdd(typeof(TMessage), _ => new ConcurrentDictionary<string, object>());
+    lock (_channelsLookup)
+    {
+      var key = typeof(TMessage);
 
-    return (Channel<TMessage>)channelLookup.GetOrAdd(
-      subscriptionId,
-      _ => Channel.CreateUnbounded<TMessage>(new()
+      if (!_channelsLookup.TryGetValue(key, out var channelLookup))
       {
-        SingleWriter = false,
-        SingleReader = false,
-        AllowSynchronousContinuations = true
-      }));
+        channelLookup = [];
+
+        _channelsLookup[key] = channelLookup;
+      }
+
+      Channel<TMessage> result;
+
+      if (channelLookup.TryGetValue(subscriptionId, out var channel))
+      {
+        result = (Channel<TMessage>)channel;
+      }
+      else
+      {
+        result = Channel.CreateUnbounded<TMessage>(new()
+        {
+          SingleWriter = false,
+          SingleReader = false,
+          AllowSynchronousContinuations = true
+        });
+
+        channelLookup[subscriptionId] = result;
+      }
+
+      return result;
+    }
   }
 }

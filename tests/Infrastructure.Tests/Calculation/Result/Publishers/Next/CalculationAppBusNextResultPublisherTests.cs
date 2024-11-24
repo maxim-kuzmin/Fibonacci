@@ -1,10 +1,12 @@
-﻿namespace Fibonacci.Infrastructure.Tests.Calculation.Result;
+﻿namespace Fibonacci.Infrastructure.Tests.Calculation.Result.Publishers.Next;
 
-public class CalculationResultConsumerFakeTests
+public class CalculationAppBusNextResultPublisherTests
 {
-  private readonly CalculationResultConsumerFake _sut;
+  private readonly CalculationAppBusNextResultPublisher _sut;
 
   private readonly Mock<ICalculationService> _calculationServiceMock = new();
+
+  private readonly Mock<ICalculationCurrentResultPublisher> _calculationCurrentResultPublisherMock = new();
 
   private static readonly CalculationResult[] _previousCalculationResults =
     [new(0, 0), new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5)];
@@ -14,11 +16,13 @@ public class CalculationResultConsumerFakeTests
 
   private static readonly Guid _calculationId = Guid.NewGuid();
 
-  public CalculationResultConsumerFakeTests()
+  public CalculationAppBusNextResultPublisherTests()
   {
-    _sut = new CalculationResultConsumerFake(_calculationId, _calculationServiceMock.Object);
+    _sut = new CalculationAppBusNextResultPublisher(
+      _calculationServiceMock.Object,
+      _calculationCurrentResultPublisherMock.Object);
 
-    for (int i = 0; i < _previousCalculationResults.Length; i++)
+    for (var i = 0; i < _previousCalculationResults.Length; i++)
     {
       var previousCalculationResultDTO = _previousCalculationResults[i].ToCalculationResultDTO(_calculationId);
 
@@ -30,8 +34,8 @@ public class CalculationResultConsumerFakeTests
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnce))]
-  public async Task GetNextCalculationResult_PreviousCalculationResult_CallsOnceServiceGetNextCalculationResult(
+  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnceServiceGetNextCalculationResult))]
+  public async Task PublishCalculationResult_CalculationResult_CallsOnceServiceGetNextCalculationResult(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput)
   {
@@ -39,14 +43,14 @@ public class CalculationResultConsumerFakeTests
 
     var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
 
-    await _sut.GetNextCalculationResult(previousCalculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(_calculationId, previousCalculationResult, CancellationToken.None);
 
     _calculationServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResultDTO), Times.Once());
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForReturns))]
-  public async Task GetNextCalculationResult_PreviousCalculationResult_ReturnsNextCalculationResult(
+  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnceCurrentResultPublisherPublishCalculationResult))]
+  public async Task PublishCalculationResult_CalculationResult_CallsOnceCurrentResultPublisherPublishCalculationResult(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput,
     BigInteger nextCalculationResultInput,
@@ -54,18 +58,21 @@ public class CalculationResultConsumerFakeTests
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    var actual = await _sut.GetNextCalculationResult(previousCalculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(_calculationId, previousCalculationResult, CancellationToken.None);
 
-    CalculationResult expected = new(nextCalculationResultInput, nextCalculationResultOutput);
+    CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    Assert.Equal(expected, actual);
+    _calculationCurrentResultPublisherMock.Verify(
+      x => x.PublishCalculationResult(_calculationId, nextCalculationResult, CancellationToken.None),
+      Times.Once());
   }
 
-  private class GetNextCalculationResultTestTheoryDataForCallsOnce : TheoryData<BigInteger, BigInteger>
+  private class GetNextCalculationResultTestTheoryDataForCallsOnceServiceGetNextCalculationResult :
+    TheoryData<BigInteger, BigInteger>
   {
-    public GetNextCalculationResultTestTheoryDataForCallsOnce()
+    public GetNextCalculationResultTestTheoryDataForCallsOnceServiceGetNextCalculationResult()
     {
-      for (int i = 0; i < _previousCalculationResults.Length; i++)
+      for (var i = 0; i < _previousCalculationResults.Length; i++)
       {
         var _previousCalculationResult = _previousCalculationResults[i];
 
@@ -74,12 +81,12 @@ public class CalculationResultConsumerFakeTests
     }
   }
 
-  private class GetNextCalculationResultTestTheoryDataForReturns :
+  private class GetNextCalculationResultTestTheoryDataForCallsOnceCurrentResultPublisherPublishCalculationResult :
     TheoryData<BigInteger, BigInteger, BigInteger, BigInteger>
   {
-    public GetNextCalculationResultTestTheoryDataForReturns()
+    public GetNextCalculationResultTestTheoryDataForCallsOnceCurrentResultPublisherPublishCalculationResult()
     {
-      for (int i = 0; i < _previousCalculationResults.Length; i++)
+      for (var i = 0; i < _previousCalculationResults.Length; i++)
       {
         var _previousCalculationResult = _previousCalculationResults[i];
 

@@ -9,4 +9,4 @@ global using Fibonacci.DomainUseCases.App;
 global using Fibonacci.Infrastructure.App;
 global using Fibonacci.Infrastructure.App.Config;
 global using Fibonacci.Infrastructure.Calculation.Result.Consumer;
-global using Fibonacci.Infrastructure.Calculation.Result.Publishers;
+global using Fibonacci.Infrastructure.Calculation.Result.Publishers.Next;

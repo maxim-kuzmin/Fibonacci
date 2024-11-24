@@ -24,7 +24,9 @@ public static class AppExtensions
     services.AddEasyNetQ($"host={appConfigOptionsRabbitMQ.Hostname}:{appConfigOptionsRabbitMQ.Port};username={appConfigOptionsRabbitMQ.Username};password={appConfigOptionsRabbitMQ.Password}")
       .UseSystemTextJson();
 
-    services.AddTransient<IAppBus, AppBus>();
+    services.AddSingleton<IAppBus, AppEasyNetQBus>();
+    // /makc// services.AddSingleton<IAppBus, AppInMemoryBus>();
+    services.AddSingleton<ICalculationCurrentResultPublisher, CalculationAppBusCurrentResultPublisher>();
     services.AddTransient<ICalculationService, CalculationService>();    
 
     logger.LogInformation("Infrastructure layer added");

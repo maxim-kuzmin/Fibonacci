@@ -4,11 +4,13 @@
 /// Исполнитель расчётов.
 /// </summary>
 /// <param name="_logger">Логгер.</param>
+/// <param name="_calculationMonitor">Монитор расчётов.</param>
 /// <param name="_calculationCount">Количество расчётов.</param>
 /// <param name="_calculationClient">Клиент расчёта.</param>
 /// <param name="_calculationConsumerFactory">Фабрика подписчиков расчёта.</param>
 public class CalculationWorker(
   ILogger<CalculationWorker> _logger,
+  ICalculationMonitor _calculationMonitor,
   CalculationCount _calculationCount,
   ICalculationClient _calculationClient,
   ICalculationResultConsumerFactory _calculationConsumerFactory) : BackgroundService
@@ -45,20 +47,13 @@ public class CalculationWorker(
     {
       calculationResult = _calculationClient.GetNextCalculationResult(calculationId, calculationResult);
 
-      Display(calculationId, calculationResult);
+      _calculationMonitor.Display(calculationId, calculationResult);
 
       calculationResult = await calculationConsumer.GetNextCalculationResult(calculationResult, cancellationToken);
 
-      Display(calculationId, calculationResult);
+      _calculationMonitor.Display(calculationId, calculationResult);
     }
 
     _logger.LogInformation("Calculation {calculationId} stopped", calculationId);
-  }
-
-  private void Display(Guid calculationId, CalculationResult calculationResult)
-  {
-    _logger.LogInformation("{calculationId}: {calculationResult}", calculationId, calculationResult);
-
-    Console.WriteLine($"{calculationId}: {calculationResult}");
   }
 }

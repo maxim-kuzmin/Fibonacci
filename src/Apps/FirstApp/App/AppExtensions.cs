@@ -41,11 +41,11 @@ public static class AppExtensions
         {
           ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         });
-    
-    services.AddSingleton<ICalculationResultConsumerFactory, CalculationResultConsumerFactory>();
-    // //makc// services.AddSingleton<ICalculationResultConsumerFactory, CalculationResultConsumerFactoryFake>();
 
-    services.AddTransient<ICalculationNextResultPublisher, CalculationNextResultPublisher>();
+    services.AddSingleton<ICalculationMonitor, CalculationMonitor>();
+    services.AddSingleton<ICalculationResultConsumerFactory, CalculationResultConsumerFactory>();
+    services.AddTransient<ICalculationNextResultPublisher, CalculationHttpClientNextResultPublisher>();
+    // //makc// services.AddTransient<ICalculationNextResultPublisher, CalculationAppBusNextResultPublisher>();
 
     logger.LogInformation("UI layer added");
 

@@ -22,8 +22,6 @@ public static class AppExtensions
 
     services.Configure<AppConfigOptions>(appConfigSection);
 
-    services.AddSingleton<ICalculationCurrentResultPublisher, CalculationCurrentResultPublisher>();
-
     logger.LogInformation("UI layer added");
 
     return services;

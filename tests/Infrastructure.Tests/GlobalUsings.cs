@@ -7,4 +7,5 @@ global using Fibonacci.DomainUseCases.Calculation;
 global using Fibonacci.Infrastructure.App.Buses;
 global using Fibonacci.Infrastructure.Calculation.Result;
 global using Fibonacci.Infrastructure.Calculation.Result.Consumer;
+global using Fibonacci.Infrastructure.Calculation.Result.Publishers.Next;
 global using Moq;

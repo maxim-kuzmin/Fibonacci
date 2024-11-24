@@ -1,10 +1,10 @@
-﻿namespace Fibonacci.Infrastructure.App;
+﻿namespace Fibonacci.Infrastructure.App.Buses;
 
 /// <summary>
-/// Шина приложения.
+/// Шина приложения, хранящая сообщения в RabbitMQ с использованием библиотеки EasyNetQ.
 /// </summary>
 /// <param name="_bus">Шина.</param>
-public class AppBus(IBus _bus) : IAppBus
+public class AppEasyNetQBus(IBus _bus) : IAppBus
 {
   /// <inheritdoc/>
   public Task Publish<TMessage>(string subscriberId, TMessage message, CancellationToken cancellationToken)
@@ -22,7 +22,7 @@ public class AppBus(IBus _bus) : IAppBus
     Func<TMessage, CancellationToken, Task> onMessage,
     CancellationToken cancellationToken)
   {
-    await _bus.PubSub.SubscribeAsync(
+    var task = _bus.PubSub.SubscribeAsync(
       subscriberId,
       onMessage,
       (config) =>
@@ -30,5 +30,7 @@ public class AppBus(IBus _bus) : IAppBus
         config.WithAutoDelete().WithTopic(subscriberId);
       },
       cancellationToken);
+
+    await task.ConfigureAwait(false);
   }
 }
