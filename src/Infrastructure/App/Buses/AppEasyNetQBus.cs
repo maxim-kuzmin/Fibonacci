@@ -1,7 +1,7 @@
 ﻿namespace Fibonacci.Infrastructure.App.Buses;
 
 /// <summary>
-/// Шина приложения, хранящая сообщения в RabbitMQ с использованием библиотеки EasyNetQ.
+/// Шина приложения для обмена сообщениями через RabbitMQ с использованием библиотеки EasyNetQ.
 /// </summary>
 /// <param name="_bus">Шина.</param>
 public class AppEasyNetQBus(IBus _bus) : IAppBus

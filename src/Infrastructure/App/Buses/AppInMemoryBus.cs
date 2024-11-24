@@ -1,7 +1,7 @@
 ﻿namespace Fibonacci.Infrastructure.App.Buses;
 
 /// <summary>
-/// Шина приложения, хранящая сообщения в памяти.
+/// Шина приложения для обмена сообщениями в памяти.
 /// </summary>
 public class AppInMemoryBus : IAppBus
 {
