@@ -20,21 +20,19 @@ public class AppInMemoryBusTests
 
     TaskCompletionSource tcsOnCallback = new();
 
-    Func<string, CancellationToken, Task> onMessage = (message, cancellationToken) =>
-    {
-      actual = message;
+    await _sut.Subscribe<string>(
+      subscriberId,
+      (message, cancellationToken) =>
+      {
+        actual = message;
 
-      tcsOnCallback.SetResult();
+        tcsOnCallback.SetResult();
 
-      return Task.CompletedTask;
-    };
+        return Task.CompletedTask;
+      },
+      CancellationToken.None);
 
-    await _sut.Subscribe(subscriberId, onMessage, CancellationToken.None);
-
-    var timeoutTask = Task.Run(async () =>
-    {
-      await Task.Delay(100);
-    });
+    var timeoutTask = Task.Run(() => Task.Delay(100));
 
     await _sut.Publish(subscriberId, expected, CancellationToken.None);
 
@@ -54,19 +52,17 @@ public class AppInMemoryBusTests
 
     TaskCompletionSource tcsOnCallback = new();
 
-    Func<string, CancellationToken, Task> onMessage = (message, cancellationToken) =>
-    {
-      tcsOnCallback.SetResult();
+    await _sut.Subscribe<string>(
+      subscriberId,
+      (message, cancellationToken) =>
+      {
+        tcsOnCallback.SetResult();
 
-      return Task.CompletedTask;
-    };
+        return Task.CompletedTask;
+      },
+      CancellationToken.None);
 
-    await _sut.Subscribe(subscriberId, onMessage, CancellationToken.None);
-
-    var timeoutTask = Task.Run(async () =>
-    {
-      await Task.Delay(100);
-    });
+    var timeoutTask = Task.Run(() => Task.Delay(100));
 
     await _sut.Publish(otherSubscriberId, expected, CancellationToken.None);
 
