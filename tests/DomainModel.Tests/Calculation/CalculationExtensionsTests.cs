@@ -12,9 +12,9 @@ public class CalculationExtensionsTests
   {
     SerializableCalculationResult sut = new(serializableInput, serializableOutput);
 
-    var actual = sut.ToCalculationResult();
-
     CalculationResult expected = new(input, output);
+
+    var actual = sut.ToCalculationResult();
 
     Assert.Equal(expected, actual);
   }
@@ -29,9 +29,9 @@ public class CalculationExtensionsTests
   {
     CalculationResult sut = new(input, output);
 
-    var actual = sut.ToSerializableCalculationResult();
-
     SerializableCalculationResult expected = new(serializableInput, serializableOutput);
+
+    var actual = sut.ToSerializableCalculationResult();
 
     Assert.Equal(expected, actual);
   }

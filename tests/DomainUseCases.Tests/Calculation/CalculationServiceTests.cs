@@ -57,9 +57,9 @@ public class CalculationServiceTests
     var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(
       CalculationResultTestData.CalculationId);
 
-    var actual = _sut.GetNextCalculationResult(previousCalculationResultDTO);
-
     var expected = nextCalculationResult.ToCalculationResultDTO(CalculationResultTestData.CalculationId);
+
+    var actual = _sut.GetNextCalculationResult(previousCalculationResultDTO);
 
     Assert.Equal(expected, actual);
   }

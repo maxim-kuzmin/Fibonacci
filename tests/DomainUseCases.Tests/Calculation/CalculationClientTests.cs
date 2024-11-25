@@ -53,9 +53,9 @@ public class CalculationClientTests
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    var actual = _sut.GetNextCalculationResult(CalculationResultTestData.CalculationId, previousCalculationResult);
-
     CalculationResult expected = new(nextCalculationResultInput, nextCalculationResultOutput);
+
+    var actual = _sut.GetNextCalculationResult(CalculationResultTestData.CalculationId, previousCalculationResult);
 
     Assert.Equal(expected, actual);
   }

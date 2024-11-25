@@ -18,16 +18,12 @@ public class CalculationLogicServiceTests
 
     if (input < 0)
     {
-      string expected = nameof(CalculationResult.Input);
-
-      Assert.Equal(expected, actual);
+      Assert.Equal(nameof(CalculationResult.Input), actual);
     }
 
     if (output < 0)
     {
-      string expected = nameof(CalculationResult.Output);
-
-      Assert.Equal(expected, actual);
+      Assert.Equal(nameof(CalculationResult.Output), actual);
     }
   }
 
@@ -41,9 +37,9 @@ public class CalculationLogicServiceTests
 
     ArrangeCalculationLogicService(data.PreviousCalculationResults.Select(x => x.ToCalculationResult()));
 
-    var actual = _sut.GetNextCalculationResult(data.PreviousCalculationResult.ToCalculationResult());
-
     var expected = data.NextCalculationResult.ToCalculationResult();
+
+    var actual = _sut.GetNextCalculationResult(data.PreviousCalculationResult.ToCalculationResult());
 
     Assert.Equal(expected, actual);
   }

@@ -63,9 +63,9 @@ public class CalculationResultConsumerTests
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    var actual = await _sut.GetNextCalculationResult(previousCalculationResult, CancellationToken.None);
-
     CalculationResult expected = new(nextCalculationResultInput, nextCalculationResultOutput);
+
+    var actual = await _sut.GetNextCalculationResult(previousCalculationResult, CancellationToken.None);
 
     Assert.Equal(expected, actual);
   }

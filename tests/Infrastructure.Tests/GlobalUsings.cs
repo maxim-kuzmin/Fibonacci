@@ -1,4 +1,5 @@
 ﻿global using System.Numerics;
+global using EasyNetQ;
 global using Fibonacci.DomainModel.App;
 global using Fibonacci.DomainModel.Calculation;
 global using Fibonacci.DomainModel.Calculation.Result;
