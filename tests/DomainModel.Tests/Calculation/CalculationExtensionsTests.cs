@@ -2,11 +2,8 @@
 
 public class CalculationExtensionsTests
 {
-  private static readonly CalculationResult[] _calculationResults =
-    [new(0, 0), new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)];
-
   [Theory]
-  [ClassData(typeof(TestTheoryData))]
+  [ClassData(typeof(CalculationExtensionsTestTheoryData))]
   public void ToCalculationResult_SerializableCalculationResult_ReturnsCalculationResult(
     string serializableInput,
     string serializableOutput,
@@ -23,7 +20,7 @@ public class CalculationExtensionsTests
   }
 
   [Theory]
-  [ClassData(typeof(TestTheoryData))]
+  [ClassData(typeof(CalculationExtensionsTestTheoryData))]
   public void ToSerializableCalculationResult_CalculationResult_ReturnsSerializableCalculationResult(
     string serializableInput,
     string serializableOutput,
@@ -37,22 +34,5 @@ public class CalculationExtensionsTests
     SerializableCalculationResult expected = new(serializableInput, serializableOutput);
 
     Assert.Equal(expected, actual);
-  }
-
-  private class TestTheoryData : TheoryData<string, string, BigInteger, BigInteger>
-  {
-    public TestTheoryData()
-    {
-      foreach (var calculationResult in _calculationResults)
-      {
-        var serializableCalculationResult = calculationResult.ToSerializableCalculationResult();
-
-        Add(
-          serializableCalculationResult.Input,
-          serializableCalculationResult.Output,
-          calculationResult.Input,
-          calculationResult.Output);
-      }
-    }
   }
 }

@@ -2,47 +2,44 @@
 
 public class CalculationExtensionsTests
 {
-  private static readonly CalculationResult[] _calculationResults =
-    [new(0, 0), new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)];
-
-  private static readonly Guid _calculationId = Guid.NewGuid();
-
   [Theory]
-  [ClassData(typeof(TestTheoryData))]
+  [ClassData(typeof(CalculationExtensionsTestTheoryData))]
   public void ToCalculationResult_CalculationResultDTO_ReturnsCalculationResult(
     string sutInput,
     string sutOutput,
     BigInteger expectedInput,
     BigInteger expectedOutput)
   {
-    CalculationResultDTO sut = new(_calculationId, new(sutInput, sutOutput));
-
-    var actual = sut.ToCalculationResult();
+    CalculationResultDTO sut = new(CalculationExtensionsTestData.CalculationId, new(sutInput, sutOutput));
 
     CalculationResult expected = new(expectedInput, expectedOutput);
+
+    var actual = sut.ToCalculationResult();
 
     Assert.Equal(expected, actual);
   }
 
   [Theory]
-  [ClassData(typeof(TestTheoryData))]
+  [ClassData(typeof(CalculationExtensionsTestTheoryData))]
   public void ToCalculationResult_CalculationSendResultActionCommand_ReturnsCalculationResult(
     string sutInput,
     string sutOutput,
     BigInteger expectedInput,
     BigInteger expectedOutput)
   {
-    CalculationSendResultActionCommand sut = new(_calculationId, new(sutInput, sutOutput));
-
-    var actual = sut.ToCalculationResult();
+    CalculationSendResultActionCommand sut = new(
+      CalculationExtensionsTestData.CalculationId,
+      new(sutInput, sutOutput));
 
     CalculationResult expected = new(expectedInput, expectedOutput);
+
+    var actual = sut.ToCalculationResult();
 
     Assert.Equal(expected, actual);
   }
 
   [Theory]
-  [ClassData(typeof(TestTheoryData))]
+  [ClassData(typeof(CalculationExtensionsTestTheoryData))]
   public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationResultDTO(
     string expectedInput,
     string expectedOutput,
@@ -51,15 +48,17 @@ public class CalculationExtensionsTests
   {
     CalculationResult sut = new(sutInput, sutOutput);
 
-    var actual = sut.ToCalculationResultDTO(_calculationId);
+    CalculationResultDTO expected = new(
+      CalculationExtensionsTestData.CalculationId,
+      new(expectedInput, expectedOutput));
 
-    CalculationResultDTO expected = new(_calculationId, new(expectedInput, expectedOutput));
+    var actual = sut.ToCalculationResultDTO(CalculationExtensionsTestData.CalculationId);
 
     Assert.Equal(expected, actual);
   }
 
   [Theory]
-  [ClassData(typeof(TestTheoryData))]
+  [ClassData(typeof(CalculationExtensionsTestTheoryData))]
   public void ToCalculationResultDTO_CalculationResult_ReturnsCalculationSendResultActionCommand(
     string expectedInput,
     string expectedOutput,
@@ -68,27 +67,12 @@ public class CalculationExtensionsTests
   {
     CalculationResult sut = new(sutInput, sutOutput);
 
-    var actual = sut.ToCalculationSendResultActionCommand(_calculationId);
+    CalculationSendResultActionCommand expected = new(
+      CalculationExtensionsTestData.CalculationId,
+      new(expectedInput, expectedOutput));
 
-    CalculationSendResultActionCommand expected = new(_calculationId, new(expectedInput, expectedOutput));
+    var actual = sut.ToCalculationSendResultActionCommand(CalculationExtensionsTestData.CalculationId);
 
     Assert.Equal(expected, actual);
-  }
-
-  private class TestTheoryData : TheoryData<string, string, BigInteger, BigInteger>
-  {
-    public TestTheoryData()
-    {
-      foreach (var calculationResult in _calculationResults)
-      {
-        var serializableCalculationResult = calculationResult.ToSerializableCalculationResult();
-
-        Add(
-          serializableCalculationResult.Input,
-          serializableCalculationResult.Output,
-          calculationResult.Input,
-          calculationResult.Output);
-      }
-    }
   }
 }

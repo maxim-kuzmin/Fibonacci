@@ -8,37 +8,34 @@ public class CalculationServiceTests
 
   private readonly Mock<ICalculationLogicServiceFactory> _calculationLogicServiceFactoryMock = new();  
 
-  private static readonly CalculationResult[] _previousCalculationResults =
-    [new(0, 0), new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5)];
-
-  private static readonly CalculationResult[] _nextCalculationResults =
-    [new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5), new(6, 8)];
-
-  private static readonly Guid _calculationId = Guid.NewGuid();
-
   public CalculationServiceTests()
   {
     _sut = new CalculationService(_calculationLogicServiceFactoryMock.Object);
 
     _calculationLogicServiceFactoryMock.Setup(x => x.CreateCalculationLogicService())
       .Returns(_calculationLogicServiceMock.Object);
-
-    for (int i = 0; i < _previousCalculationResults.Length; i++)
+    
+    for (int i = 0; i < CalculationResultTestData.CalculationResultCount; i++)
     {
-      _calculationLogicServiceMock.Setup(x => x.GetNextCalculationResult(_previousCalculationResults[i]))
-        .Returns(_nextCalculationResults[i]);
+      var previousCalculationResult = CalculationResultTestData.GetPreviousCalculationResultByIndex(i);
+
+      var nextCalculationResult = CalculationResultTestData.GetNextCalculationResultByIndex(i);
+
+      _calculationLogicServiceMock.Setup(x => x.GetNextCalculationResult(previousCalculationResult))
+        .Returns(nextCalculationResult);
     }
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnce))]
+  [ClassData(typeof(CalculationResultTestTheoryPreviousData))]
   public void GetNextCalculationResult_PreviousCalculationResultDTO_CallsOnceLogicServiceGetNextCalculationResult(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput)
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
+    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(
+      CalculationResultTestData.CalculationId);
 
     _sut.GetNextCalculationResult(previousCalculationResultDTO);
 
@@ -46,7 +43,7 @@ public class CalculationServiceTests
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForReturns))]
+  [ClassData(typeof(CalculationResultTestTheoryFullData))]
   public void GetNextCalculationResult_PreviousCalculationResultDTO_ReturnsNextCalculationResultDTO(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput,
@@ -57,45 +54,13 @@ public class CalculationServiceTests
 
     CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
+    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(
+      CalculationResultTestData.CalculationId);
 
     var actual = _sut.GetNextCalculationResult(previousCalculationResultDTO);
 
-    var expected = nextCalculationResult.ToCalculationResultDTO(_calculationId);
+    var expected = nextCalculationResult.ToCalculationResultDTO(CalculationResultTestData.CalculationId);
 
     Assert.Equal(expected, actual);
-  }
-
-  private class GetNextCalculationResultTestTheoryDataForCallsOnce : TheoryData<BigInteger, BigInteger>
-  {
-    public GetNextCalculationResultTestTheoryDataForCallsOnce()
-    {
-      for (int i = 0; i < _previousCalculationResults.Length; i++)
-      {
-        var _previousCalculationResult = _previousCalculationResults[i];
-
-        Add(_previousCalculationResult.Input, _previousCalculationResult.Output);
-      }
-    }
-  }
-
-  private class GetNextCalculationResultTestTheoryDataForReturns :
-    TheoryData<BigInteger, BigInteger, BigInteger, BigInteger>
-  {
-    public GetNextCalculationResultTestTheoryDataForReturns()
-    {
-      for (int i = 0; i < _previousCalculationResults.Length; i++)
-      {
-        var _previousCalculationResult = _previousCalculationResults[i];
-
-        var _nextCalculationResult = _nextCalculationResults[i];
-
-        Add(
-          _previousCalculationResult.Input,
-          _previousCalculationResult.Output,
-          _nextCalculationResult.Input,
-          _nextCalculationResult.Output);
-      }
-    }
   }
 }

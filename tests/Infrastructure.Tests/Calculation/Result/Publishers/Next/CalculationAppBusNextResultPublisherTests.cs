@@ -8,25 +8,23 @@ public class CalculationAppBusNextResultPublisherTests
 
   private readonly Mock<ICalculationCurrentResultPublisher> _calculationCurrentResultPublisherMock = new();
 
-  private static readonly CalculationResult[] _previousCalculationResults =
-    [new(0, 0), new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5)];
-
-  private static readonly CalculationResult[] _nextCalculationResults =
-    [new(1, 1), new(2, 1), new(3, 2), new(4, 3), new(5, 5), new(6, 8)];
-
-  private static readonly Guid _calculationId = Guid.NewGuid();
-
   public CalculationAppBusNextResultPublisherTests()
   {
     _sut = new CalculationAppBusNextResultPublisher(
       _calculationServiceMock.Object,
       _calculationCurrentResultPublisherMock.Object);
 
-    for (var i = 0; i < _previousCalculationResults.Length; i++)
+    for (var i = 0; i < CalculationResultTestData.CalculationResultCount; i++)
     {
-      var previousCalculationResultDTO = _previousCalculationResults[i].ToCalculationResultDTO(_calculationId);
+      var previousCalculationResult = CalculationResultTestData.GetPreviousCalculationResultByIndex(i);
 
-      var nextCalculationResultDTO = _nextCalculationResults[i].ToCalculationResultDTO(_calculationId);
+      var nextCalculationResult = CalculationResultTestData.GetNextCalculationResultByIndex(i);
+
+      var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(
+        CalculationResultTestData.CalculationId);
+
+      var nextCalculationResultDTO = nextCalculationResult.ToCalculationResultDTO(
+        CalculationResultTestData.CalculationId);
 
       _calculationServiceMock.Setup(x => x.GetNextCalculationResult(previousCalculationResultDTO))
         .Returns(nextCalculationResultDTO);
@@ -34,22 +32,26 @@ public class CalculationAppBusNextResultPublisherTests
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnceServiceGetNextCalculationResult))]
+  [ClassData(typeof(CalculationResultTestTheoryPreviousData))]
   public async Task PublishCalculationResult_CalculationResult_CallsOnceServiceGetNextCalculationResult(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput)
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(_calculationId);
+    var previousCalculationResultDTO = previousCalculationResult.ToCalculationResultDTO(
+      CalculationResultTestData.CalculationId);
 
-    await _sut.PublishCalculationResult(_calculationId, previousCalculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(
+      CalculationResultTestData.CalculationId,
+      previousCalculationResult,
+      CancellationToken.None);
 
     _calculationServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResultDTO), Times.Once());
   }
 
   [Theory]
-  [ClassData(typeof(GetNextCalculationResultTestTheoryDataForCallsOnceCurrentResultPublisherPublishCalculationResult))]
+  [ClassData(typeof(CalculationResultTestTheoryFullData))]
   public async Task PublishCalculationResult_CalculationResult_CallsOnceCurrentResultPublisherPublishCalculationResult(
     BigInteger previousCalculationResultInput,
     BigInteger previousCalculationResultOutput,
@@ -58,46 +60,18 @@ public class CalculationAppBusNextResultPublisherTests
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    await _sut.PublishCalculationResult(_calculationId, previousCalculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(
+      CalculationResultTestData.CalculationId,
+      previousCalculationResult,
+      CancellationToken.None);
 
     CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
     _calculationCurrentResultPublisherMock.Verify(
-      x => x.PublishCalculationResult(_calculationId, nextCalculationResult, CancellationToken.None),
+      x => x.PublishCalculationResult(
+        CalculationResultTestData.CalculationId,
+        nextCalculationResult,
+        CancellationToken.None),
       Times.Once());
-  }
-
-  private class GetNextCalculationResultTestTheoryDataForCallsOnceServiceGetNextCalculationResult :
-    TheoryData<BigInteger, BigInteger>
-  {
-    public GetNextCalculationResultTestTheoryDataForCallsOnceServiceGetNextCalculationResult()
-    {
-      for (var i = 0; i < _previousCalculationResults.Length; i++)
-      {
-        var _previousCalculationResult = _previousCalculationResults[i];
-
-        Add(_previousCalculationResult.Input, _previousCalculationResult.Output);
-      }
-    }
-  }
-
-  private class GetNextCalculationResultTestTheoryDataForCallsOnceCurrentResultPublisherPublishCalculationResult :
-    TheoryData<BigInteger, BigInteger, BigInteger, BigInteger>
-  {
-    public GetNextCalculationResultTestTheoryDataForCallsOnceCurrentResultPublisherPublishCalculationResult()
-    {
-      for (var i = 0; i < _previousCalculationResults.Length; i++)
-      {
-        var _previousCalculationResult = _previousCalculationResults[i];
-
-        var _nextCalculationResult = _nextCalculationResults[i];
-
-        Add(
-          _previousCalculationResult.Input,
-          _previousCalculationResult.Output,
-          _nextCalculationResult.Input,
-          _nextCalculationResult.Output);
-      }
-    }
   }
 }

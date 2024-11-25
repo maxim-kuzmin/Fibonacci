@@ -3,6 +3,8 @@ global using Fibonacci.DomainModel.App;
 global using Fibonacci.DomainModel.Calculation;
 global using Fibonacci.DomainModel.Calculation.Result;
 global using Fibonacci.DomainModel.Calculation.Result.Publishers;
+global using Fibonacci.DomainModel.Test.Calculation.Result;
+global using Fibonacci.DomainModel.Test.Calculation.Result.Theory;
 global using Fibonacci.DomainUseCases.Calculation;
 global using Fibonacci.Infrastructure.App.Buses;
 global using Fibonacci.Infrastructure.Calculation.Result;
