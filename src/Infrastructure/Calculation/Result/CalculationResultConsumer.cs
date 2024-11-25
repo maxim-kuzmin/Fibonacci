@@ -23,7 +23,7 @@ public class CalculationResultConsumer(
   {
     _taskCompletionSource = new TaskCompletionSource<CalculationResult>();
 
-    Task.Run(() => SubscribeAndPublish(previousCalculationResult, cancellationToken), cancellationToken);
+    Task.Run(() => Consume(previousCalculationResult, cancellationToken), cancellationToken);
 
     return _taskCompletionSource.Task;
   }
@@ -35,7 +35,7 @@ public class CalculationResultConsumer(
     return Task.CompletedTask;
   }
 
-  private async Task SubscribeAndPublish(CalculationResult calculationResult, CancellationToken cancellationToken)
+  private async Task Consume(CalculationResult calculationResult, CancellationToken cancellationToken)
   {
     if (!_isSubscribed && !cancellationToken.IsCancellationRequested)
     {
