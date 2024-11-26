@@ -33,17 +33,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B9EAC11D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.Test", "tests\DomainModel.Test\Fibonacci.DomainModel.Test.csproj", "{06B94FEB-2738-4F92-BE41-1BA28F8F609F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.Tests", "tests\DomainModel.Tests\Fibonacci.DomainModel.Tests.csproj", "{931CF510-D5E0-4F62-9930-8F1D2728E422}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.UnitTests", "tests\DomainModel.UnitTests\Fibonacci.DomainModel.UnitTests.csproj", "{931CF510-D5E0-4F62-9930-8F1D2728E422}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainUseCases.Tests", "tests\DomainUseCases.Tests\Fibonacci.DomainUseCases.Tests.csproj", "{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainUseCases.UnitTests", "tests\DomainUseCases.UnitTests\Fibonacci.DomainUseCases.UnitTests.csproj", "{C632FF3B-EA9C-4617-B7CB-41B1EE309ECD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Infrastructure.Tests", "tests\Infrastructure.Tests\Fibonacci.Infrastructure.Tests.csproj", "{8469809C-3E29-4645-B1C6-EF301BA3A919}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Infrastructure.UnitTests", "tests\Infrastructure.UnitTests\Fibonacci.Infrastructure.UnitTests.csproj", "{8469809C-3E29-4645-B1C6-EF301BA3A919}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{261D4B10-7542-4C0B-A5F6-8F0E6900A3BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.FirstApp.Tests", "tests\Apps\FirstApp.Tests\Fibonacci.Apps.FirstApp.Tests.csproj", "{8E70FE34-BA43-43A5-9DD7-63442E772C11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.FirstApp.UnitTests", "tests\Apps\FirstApp.UnitTests\Fibonacci.Apps.FirstApp.UnitTests.csproj", "{8E70FE34-BA43-43A5-9DD7-63442E772C11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.SecondApp.Tests", "tests\Apps\SecondApp.Tests\Fibonacci.Apps.SecondApp.Tests.csproj", "{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.SecondApp.UnitTests", "tests\Apps\SecondApp.UnitTests\Fibonacci.Apps.SecondApp.UnitTests.csproj", "{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
