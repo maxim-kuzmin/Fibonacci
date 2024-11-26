@@ -1,4 +1,5 @@
-﻿global using Fibonacci.Apps.FirstApp.App;
+﻿global using System.Numerics;
+global using Fibonacci.Apps.FirstApp.App;
 global using Fibonacci.Apps.FirstApp.App.Config;
 global using Fibonacci.Apps.FirstApp.Calculation;
 global using Fibonacci.DomainModel.App;

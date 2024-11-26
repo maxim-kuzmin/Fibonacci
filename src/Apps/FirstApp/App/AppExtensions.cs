@@ -25,7 +25,7 @@ public static class AppExtensions
 
     services.Configure<AppConfigOptions>(appConfigSection);
 
-    services.AddSingleton(_ => new CalculationCount(calculationCount));
+    services.AddSingleton(_ => new CalculationOptions(calculationCount, 0));
 
     services.AddHostedService<CalculationWorker>();
 
@@ -42,10 +42,11 @@ public static class AppExtensions
           ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
         });
 
-    services.AddSingleton<ICalculationMonitor, CalculationMonitor>();
+    services.AddSingleton<ICalculationMonitor, CalculationMonitor>();    
     services.AddSingleton<ICalculationResultConsumerFactory, CalculationResultConsumerFactory>();
     services.AddTransient<ICalculationNextResultPublisher, CalculationHttpClientNextResultPublisher>();
-    // //makc// services.AddTransient<ICalculationNextResultPublisher, CalculationAppBusNextResultPublisher>();
+    // //makc// services.AddTransient<ICalculationNextResultPublisher, CalculationAppBusNextResultPublisher>(); // Для выполнения расчёта без второго приложения
+    services.AddTransient<ICalculationService, CalculationService>();
 
     logger.LogInformation("UI layer added");
 

@@ -25,7 +25,7 @@ public static class AppExtensions
       .UseSystemTextJson();
 
     services.AddSingleton<IAppBus, AppEasyNetQBus>();
-    // /makc// services.AddSingleton<IAppBus, AppInMemoryBus>();
+    // //makc// services.AddSingleton<IAppBus, AppInMemoryBus>(); // Для работы без использования очереди сообщений при выполнении расчёта без второго приложения
     services.AddSingleton<ICalculationCurrentResultPublisher, CalculationAppBusCurrentResultPublisher>();
     services.AddTransient<ICalculationService, CalculationService>();    
 

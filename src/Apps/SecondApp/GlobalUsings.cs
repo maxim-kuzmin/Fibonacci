@@ -6,3 +6,4 @@ global using Fibonacci.DomainUseCases.Calculation.Actions.SendResult;
 global using Fibonacci.Infrastructure.App;
 global using Fibonacci.Infrastructure.App.Config;
 global using MediatR;
+global using Microsoft.AspNetCore.Http.HttpResults;

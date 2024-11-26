@@ -19,7 +19,7 @@ public class CalculationHttpClientNextResultPublisher(IHttpClientFactory _httpCl
 
     using var requestContent = JsonContent.Create(command);
 
-    var requestTask = httpClient.PostAsync(AppSettings.CalculationSendResultUrl, requestContent, cancellationToken);
+    var requestTask = httpClient.PostAsync(AppSettings.CalculationApiSendResultUrl, requestContent, cancellationToken);
 
     var responseMessage = await requestTask.ConfigureAwait(false);
 

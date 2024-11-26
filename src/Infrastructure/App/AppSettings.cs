@@ -11,7 +11,17 @@ public static class AppSettings
   public const string CalculationNextResultPublisherHttpClientName = "CalculationNextResultPublisher";
 
   /// <summary>
-  /// URL отправки результата расчёта.
+  /// Путь API расчёта.
   /// </summary>
-  public const string CalculationSendResultUrl = "calculation/send-result";
+  public const string CalculationApiPath = "calculation";
+
+  /// <summary>
+  /// Путь отправки результата API расчёта.
+  /// </summary>
+  public const string CalculationApiSendResultPath = "send-result";
+
+  /// <summary>
+  /// URL отправки результата API расчёта.
+  /// </summary>
+  public const string CalculationApiSendResultUrl = $"{CalculationApiPath}/{CalculationApiSendResultPath}";
 }

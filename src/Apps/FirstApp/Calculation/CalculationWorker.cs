@@ -4,56 +4,27 @@
 /// Исполнитель расчётов.
 /// </summary>
 /// <param name="_logger">Логгер.</param>
-/// <param name="_calculationMonitor">Монитор расчётов.</param>
-/// <param name="_calculationCount">Количество расчётов.</param>
-/// <param name="_calculationClient">Клиент расчёта.</param>
-/// <param name="_calculationConsumerFactory">Фабрика подписчиков расчёта.</param>
+/// <param name="_calculationOptions">Параметры расчёта.</param>
+/// <param name="_calculationService">Сервис расчёта.</param>
 public class CalculationWorker(
   ILogger<CalculationWorker> _logger,
-  ICalculationMonitor _calculationMonitor,
-  CalculationCount _calculationCount,
-  ICalculationClient _calculationClient,
-  ICalculationResultConsumerFactory _calculationConsumerFactory) : BackgroundService
+  CalculationOptions _calculationOptions,
+  ICalculationService _calculationService) : BackgroundService
 {
   /// <inheritdoc/>
   protected override async Task ExecuteAsync(CancellationToken stoppingToken)
   {
     _logger.LogInformation("Calculation work started");
 
-    List<Task> tasks = new(_calculationCount.Value);
+    List<Task> tasks = new(_calculationOptions.CalculationCount);
 
-    for (var i = 0; i < _calculationCount.Value; i++)
+    for (var i = 0; i < _calculationOptions.CalculationCount; i++)
     {
-      tasks.Add(Task.Run(() => Calculate(stoppingToken), stoppingToken));
+      tasks.Add(Task.Run(() => _calculationService.Calculate(stoppingToken), stoppingToken));
     }
 
     await Task.WhenAll(tasks);
 
     _logger.LogInformation("Calculation work finished");
-  }
-
-  private async Task Calculate(CancellationToken cancellationToken)
-  {
-    var calculationId = Guid.NewGuid();
-
-    _logger.LogInformation("Calculation {calculationId} started", calculationId);
-
-    CalculationResult calculationResult = new(0, 0);
-
-    var calculationConsumer = _calculationConsumerFactory.CreateCalculationResultConsumer(calculationId);
-
-    while (!cancellationToken.IsCancellationRequested)
-    // //makc// for (var i = 0; i < 10; i++)
-    {
-      calculationResult = _calculationClient.GetNextCalculationResult(calculationId, calculationResult);
-
-      _calculationMonitor.Display(calculationId, calculationResult);
-
-      calculationResult = await calculationConsumer.GetNextCalculationResult(calculationResult, cancellationToken);
-
-      _calculationMonitor.Display(calculationId, calculationResult);
-    }
-
-    _logger.LogInformation("Calculation {calculationId} stopped", calculationId);
   }
 }

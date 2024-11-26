@@ -1,7 +1,4 @@
-﻿using Fibonacci.DomainModel.App;
-using System.Threading;
-
-namespace Fibonacci.Infrastructure.Tests.Calculation.Result.Publishers.Current;
+﻿namespace Fibonacci.Infrastructure.Tests.Calculation.Result.Publishers.Current;
 
 public class CalculationAppBusCurrentResultPublisherTests
 {

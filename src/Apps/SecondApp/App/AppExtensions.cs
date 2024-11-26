@@ -1,4 +1,6 @@
-﻿namespace Fibonacci.Apps.SecondApp.App;
+﻿using Fibonacci.Apps.SecondApp.Calculation;
+
+namespace Fibonacci.Apps.SecondApp.App;
 
 /// <summary>
 /// Расширения приложения.
@@ -57,9 +59,7 @@ public static class AppExtensions
 
     app.UseHttpsRedirection();
 
-    app.MapPost($"/{AppSettings.CalculationSendResultUrl}", CalculationSendResult)
-      .WithName(nameof(CalculationSendResult))
-      .WithOpenApi();
+    app.MapGroup($"/{AppSettings.CalculationApiPath}").MapCalculationApi().WithTags("Calculation Endpoints");
 
     logger.LogInformation("UI layer used");
 
