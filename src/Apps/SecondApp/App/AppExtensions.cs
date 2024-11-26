@@ -1,6 +1,4 @@
-﻿using Fibonacci.Apps.SecondApp.Calculation;
-
-namespace Fibonacci.Apps.SecondApp.App;
+﻿namespace Fibonacci.Apps.SecondApp.App;
 
 /// <summary>
 /// Расширения приложения.

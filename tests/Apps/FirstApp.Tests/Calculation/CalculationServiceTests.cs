@@ -4,11 +4,11 @@ public class CalculationServiceTests
 {
   private readonly CalculationService _sut;
 
+  private readonly CalculationOptions _calculationOptions = new(1, 1);
+
   private readonly Mock<ILogger<CalculationWorker>> _loggerMock = new();
 
-  private readonly Mock<ICalculationMonitor> _calculationMonitorMock = new();
-
-  private readonly CalculationOptions _calculationOptions = new(1, 1);
+  private readonly Mock<ICalculationMonitor> _calculationMonitorMock = new();  
 
   private readonly Mock<ICalculationClient> _calculationClientMock = new();
 
@@ -20,8 +20,8 @@ public class CalculationServiceTests
   {
     _sut = new(
       _loggerMock.Object,
-      _calculationMonitorMock.Object,
       _calculationOptions,
+      _calculationMonitorMock.Object,      
       _calculationClientMock.Object,
       _calculationConsumerFactoryMock.Object);
 

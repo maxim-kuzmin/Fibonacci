@@ -1,21 +1,18 @@
-﻿using System.Threading;
-using Fibonacci.DomainModel.Calculation;
-
-namespace Fibonacci.Apps.FirstApp.Calculation;
+﻿namespace Fibonacci.Apps.FirstApp.Calculation;
 
 /// <summary>
 /// Сервис расчёта.
 /// </summary>
 /// <param name="_logger">Логгер.</param>
-/// <param name="_calculationMonitor">Монитор расчёта.</param>
 /// <param name="_calculationOptions">Параметры расчёта.</param>
+/// <param name="_calculationMonitor">Монитор расчёта.</param>
 /// <param name="_calculationClient">Клиент расчёта.</param>
 /// <param name="_calculationConsumerFactory">Фабрика подписчиков расчёта.</param>
 public class CalculationService(
-  ILogger<CalculationWorker> _logger,
-  ICalculationMonitor _calculationMonitor,
+  ILogger<CalculationWorker> _logger,  
   CalculationOptions _calculationOptions,
-  ICalculationClient _calculationClient,
+  ICalculationMonitor _calculationMonitor,
+  ICalculationClient _calculationClient,  
   ICalculationResultConsumerFactory _calculationConsumerFactory) : ICalculationService
 {
   /// <inheritdoc/>
