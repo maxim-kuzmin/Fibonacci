@@ -1,4 +1,6 @@
-﻿namespace Fibonacci.Apps.SecondApp.App;
+﻿using Fibonacci.Apps.SecondApp.App.Middlewares;
+
+namespace Fibonacci.Apps.SecondApp.App;
 
 /// <summary>
 /// Расширения приложения.
@@ -57,15 +59,12 @@ public static class AppExtensions
 
     app.UseHttpsRedirection();
 
+    app.UseMiddleware<AppTraceIdResponseHeaderMiddleware>();
+
     app.MapGroup($"/{AppSettings.CalculationApiPath}").MapCalculationApi().WithTags("Calculation Endpoints");
 
     logger.LogInformation("UI layer used");
 
     return app;
-  }
-
-  private static Task CalculationSendResult(IMediator mediator, CalculationSendResultActionCommand command)
-  {
-    return mediator.Send(command);
   }
 }

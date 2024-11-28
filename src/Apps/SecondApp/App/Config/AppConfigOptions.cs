@@ -11,7 +11,12 @@ public record AppConfigOptions
   public const string SectionKey = "App";
 
   /// <summary>
-  /// Параметры конфигурации приложения для RabbitMQ.
+  /// Наблюдаемость.
+  /// </summary>
+  public AppConfigOptionsObservability Observability { get; set; } = null!;
+
+  /// <summary>
+  /// RabbitMQ.
   /// </summary>
   public AppConfigOptionsRabbitMQ RabbitMQ { get; set; } = null!;
 }

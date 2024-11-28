@@ -16,7 +16,12 @@ public record AppConfigOptions
   public string SecondAppUrl { get; set; } = string.Empty;
 
   /// <summary>
-  /// Параметры конфигурации приложения для RabbitMQ.
+  /// Наблюдаемость.
+  /// </summary>
+  public AppConfigOptionsObservability Observability { get; set; } = null!;
+
+  /// <summary>
+  /// RabbitMQ.
   /// </summary>
   public AppConfigOptionsRabbitMQ RabbitMQ { get; set; } = null!;
 }

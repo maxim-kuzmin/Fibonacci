@@ -15,7 +15,11 @@ try
   builder.Services
     .AddAppDomainModelLayer(logger)
     .AddAppDomainUseCasesLayer(logger)
-    .AddAppInfrastructureLayer(logger, builder.Configuration, appConfigOptions.RabbitMQ)
+    .AddAppInfrastructureLayer(
+      logger,
+      builder.Configuration,
+      appConfigOptions.Observability,
+      appConfigOptions.RabbitMQ)
     .AddAppUILayer(logger, appConfigOptions, appConfigSection, calculationCount);
 
   var app = builder.Build();

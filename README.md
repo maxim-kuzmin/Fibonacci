@@ -62,3 +62,9 @@ dotnet run -- 5
 ```
 dotnet test
 ```
+
+### 5. Просмотр логов (Grafana Loki), метрик (Prometheus) и трейсов (Jaeger, Zipkin) с помощью Grafana
+
+```
+http://localhost:3000/
+```
