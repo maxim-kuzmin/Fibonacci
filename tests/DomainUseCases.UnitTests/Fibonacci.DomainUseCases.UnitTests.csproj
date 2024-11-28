@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DomainUseCases\Fibonacci.DomainUseCases.csproj" />
-    <ProjectReference Include="..\DomainModel.Test\Fibonacci.DomainModel.Test.csproj" />
+    <ProjectReference Include="..\DomainModel.UnitTest\Fibonacci.DomainModel.UnitTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>

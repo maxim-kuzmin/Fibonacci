@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fibonacci.Apps.SecondApp", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B9EAC11D-B2F7-4BD2-BDAB-D153CCAF4A75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.Test", "tests\DomainModel.Test\Fibonacci.DomainModel.Test.csproj", "{06B94FEB-2738-4F92-BE41-1BA28F8F609F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.UnitTest", "tests\DomainModel.UnitTest\Fibonacci.DomainModel.UnitTest.csproj", "{06B94FEB-2738-4F92-BE41-1BA28F8F609F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.DomainModel.UnitTests", "tests\DomainModel.UnitTests\Fibonacci.DomainModel.UnitTests.csproj", "{931CF510-D5E0-4F62-9930-8F1D2728E422}"
 EndProject
@@ -42,6 +42,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{261D4B10-7542-4C0B-A5F6-8F0E6900A3BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.FirstApp.UnitTests", "tests\Apps\FirstApp.UnitTests\Fibonacci.Apps.FirstApp.UnitTests.csproj", "{8E70FE34-BA43-43A5-9DD7-63442E772C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.SecondApp.IntegrationTest", "tests\Apps\SecondApp.IntegrationTest\Fibonacci.Apps.SecondApp.IntegrationTest.csproj", "{0EA14764-0A04-461C-8376-65DB6221632C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.SecondApp.IntegrationTests", "tests\Apps\SecondApp.IntegrationTests\Fibonacci.Apps.SecondApp.IntegrationTests.csproj", "{B7231CB3-59D4-4718-BB7A-319D92A756A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fibonacci.Apps.SecondApp.UnitTests", "tests\Apps\SecondApp.UnitTests\Fibonacci.Apps.SecondApp.UnitTests.csproj", "{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74}"
 EndProject
@@ -95,6 +99,14 @@ Global
 		{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7231CB3-59D4-4718-BB7A-319D92A756A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7231CB3-59D4-4718-BB7A-319D92A756A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7231CB3-59D4-4718-BB7A-319D92A756A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7231CB3-59D4-4718-BB7A-319D92A756A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA14764-0A04-461C-8376-65DB6221632C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA14764-0A04-461C-8376-65DB6221632C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA14764-0A04-461C-8376-65DB6221632C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA14764-0A04-461C-8376-65DB6221632C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +125,8 @@ Global
 		{261D4B10-7542-4C0B-A5F6-8F0E6900A3BB} = {B9EAC11D-B2F7-4BD2-BDAB-D153CCAF4A75}
 		{8E70FE34-BA43-43A5-9DD7-63442E772C11} = {261D4B10-7542-4C0B-A5F6-8F0E6900A3BB}
 		{02608767-D0B1-4F8F-ACD6-AF0EE78ECC74} = {261D4B10-7542-4C0B-A5F6-8F0E6900A3BB}
+		{B7231CB3-59D4-4718-BB7A-319D92A756A3} = {261D4B10-7542-4C0B-A5F6-8F0E6900A3BB}
+		{0EA14764-0A04-461C-8376-65DB6221632C} = {261D4B10-7542-4C0B-A5F6-8F0E6900A3BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F758CF58-3216-404A-9899-EE5D51CAF418}

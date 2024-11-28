@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainModel.Test\Fibonacci.DomainModel.Test.csproj" />
+    <ProjectReference Include="..\DomainModel.UnitTest\Fibonacci.DomainModel.UnitTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>

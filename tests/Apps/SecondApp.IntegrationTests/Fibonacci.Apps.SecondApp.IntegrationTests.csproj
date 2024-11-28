@@ -7,13 +7,12 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Infrastructure\Fibonacci.Infrastructure.csproj" />
-    <ProjectReference Include="..\DomainModel.UnitTest\Fibonacci.DomainModel.UnitTest.csproj" />
+    <ProjectReference Include="..\SecondApp.IntegrationTest\Fibonacci.Apps.SecondApp.IntegrationTest.csproj" />
   </ItemGroup>
 
   <ItemGroup>
