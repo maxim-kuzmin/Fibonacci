@@ -51,5 +51,4 @@ static int GetCalculationCount(string[] args, int calculationCount)
   return calculationCount;
 }
 
-
 public partial class Program { }
