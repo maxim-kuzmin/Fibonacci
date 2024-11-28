@@ -16,7 +16,7 @@ public class CalculationEndpointsTests
       calculationId,
       calculationResult.ToSerializableCalculationResult());
 
-    _mediatorMock.Setup(x => x.Send(_sendResultActionCommand, CancellationToken.None)).Returns(Task.CompletedTask);
+    _mediatorMock.Setup(x => x.Send(_sendResultActionCommand, default)).Returns(Task.CompletedTask);
   }
 
   [Fact]

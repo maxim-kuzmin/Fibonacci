@@ -34,7 +34,7 @@ public class CalculationSendResultActionHandlerTests
 
     CalculationResult previousCalculationResult = command.ToCalculationResult();
 
-    await _sut.Handle(command, CancellationToken.None);
+    await _sut.Handle(command, default);
 
     _calculationClientMock.Verify(
       x => x.GetNextCalculationResult(_calculationId, previousCalculationResult),
@@ -55,10 +55,10 @@ public class CalculationSendResultActionHandlerTests
 
     CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    await _sut.Handle(command, CancellationToken.None);
+    await _sut.Handle(command, default);
 
     _calculationCurrentResultPublisherMock.Verify(
-      x => x.PublishCalculationResult(_calculationId, nextCalculationResult, CancellationToken.None),
+      x => x.PublishCalculationResult(_calculationId, nextCalculationResult, default),
       Times.Once());
   }
 

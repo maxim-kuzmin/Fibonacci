@@ -45,7 +45,7 @@ public class CalculationAppBusNextResultPublisherTests
     await _sut.PublishCalculationResult(
       CalculationResultTestData.CalculationId,
       previousCalculationResult,
-      CancellationToken.None);
+      default);
 
     _calculationServiceMock.Verify(x => x.GetNextCalculationResult(previousCalculationResultDTO), Times.Once());
   }
@@ -63,7 +63,7 @@ public class CalculationAppBusNextResultPublisherTests
     await _sut.PublishCalculationResult(
       CalculationResultTestData.CalculationId,
       previousCalculationResult,
-      CancellationToken.None);
+      default);
 
     CalculationResult nextCalculationResult = new(nextCalculationResultInput, nextCalculationResultOutput);
 
@@ -71,7 +71,7 @@ public class CalculationAppBusNextResultPublisherTests
       x => x.PublishCalculationResult(
         CalculationResultTestData.CalculationId,
         nextCalculationResult,
-        CancellationToken.None),
+        default),
       Times.Once());
   }
 }

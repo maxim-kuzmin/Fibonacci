@@ -40,7 +40,7 @@ public class CalculationServiceTests
   [Fact]
   public async Task StartAsync_Always_CallsCalculationCountCreateCalculationResultConsumer()
   {
-    await _sut.Calculate(CancellationToken.None);
+    await _sut.Calculate(default);
 
     _calculationConsumerFactoryMock.Verify(
       x => x.CreateCalculationResultConsumer(It.IsAny<Guid>()),

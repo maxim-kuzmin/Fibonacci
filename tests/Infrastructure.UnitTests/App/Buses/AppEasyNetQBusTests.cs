@@ -22,10 +22,10 @@ public class AppEasyNetQBusTests
 
     string message = Guid.NewGuid().ToString();
 
-    await _sut.Publish(subscriberId, message, CancellationToken.None);
+    await _sut.Publish(subscriberId, message, default);
 
     _busMock.Verify(
-      x => x.PubSub.PublishAsync(message, It.IsAny<Action<IPublishConfiguration>>(), CancellationToken.None),
+      x => x.PubSub.PublishAsync(message, It.IsAny<Action<IPublishConfiguration>>(), default),
       Times.Once());
   }
 
@@ -39,14 +39,14 @@ public class AppEasyNetQBusTests
       return Task.CompletedTask;
     };
 
-    await _sut.Subscribe(subscriberId, onMessage, CancellationToken.None);
+    await _sut.Subscribe(subscriberId, onMessage, default);
 
     _busMock.Verify(
       x => x.PubSub.SubscribeAsync(
         subscriberId,
         onMessage,
         It.IsAny<Action<ISubscriptionConfiguration>>(),
-        CancellationToken.None),
+        default),
       Times.Once());
   }
 }

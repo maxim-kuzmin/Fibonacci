@@ -30,11 +30,11 @@ public class AppInMemoryBusTests
 
         return Task.CompletedTask;
       },
-      CancellationToken.None);
+      default);
 
     var timeoutTask = Task.Run(() => Task.Delay(100));
 
-    await _sut.Publish(subscriberId, expected, CancellationToken.None);
+    await _sut.Publish(subscriberId, expected, default);
 
     await Task.WhenAny(tcsOnCallback.Task, timeoutTask);
 
@@ -60,11 +60,11 @@ public class AppInMemoryBusTests
 
         return Task.CompletedTask;
       },
-      CancellationToken.None);
+      default);
 
     var timeoutTask = Task.Run(() => Task.Delay(100));
 
-    await _sut.Publish(otherSubscriberId, expected, CancellationToken.None);
+    await _sut.Publish(otherSubscriberId, expected, default);
 
     await Task.WhenAny(tcsOnCallback.Task, timeoutTask);
 

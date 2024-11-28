@@ -20,10 +20,10 @@ public class CalculationAppBusCurrentResultPublisherTests
 
     var calculationResultDTO = calculationResult.ToCalculationResultDTO(calculationId);
 
-    await _sut.PublishCalculationResult(calculationId, calculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(calculationId, calculationResult, default);
 
     _appBusMock.Verify(
-      x => x.Publish(calculationId.ToString(), calculationResultDTO, CancellationToken.None),
+      x => x.Publish(calculationId.ToString(), calculationResultDTO, default),
       Times.Once());
   }
 }

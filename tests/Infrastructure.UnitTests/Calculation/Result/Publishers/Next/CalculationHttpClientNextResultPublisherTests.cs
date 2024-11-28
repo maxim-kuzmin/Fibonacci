@@ -35,7 +35,7 @@ public class CalculationHttpClientNextResultPublisherTests
 
     CalculationResult calculationResult = new(0, 0);
 
-    await _sut.PublishCalculationResult(calculationId, calculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(calculationId, calculationResult, default);
 
     _httpClientFactoryMock.Verify(
       x => x.CreateClient(AppSettings.CalculationNextResultPublisherHttpClientName),
@@ -49,7 +49,7 @@ public class CalculationHttpClientNextResultPublisherTests
 
     CalculationResult calculationResult = new(0, 0);
 
-    await _sut.PublishCalculationResult(calculationId, calculationResult, CancellationToken.None);
+    await _sut.PublishCalculationResult(calculationId, calculationResult, default);
 
     _httpMessageHandlerMock.Protected().Verify(
       "SendAsync",

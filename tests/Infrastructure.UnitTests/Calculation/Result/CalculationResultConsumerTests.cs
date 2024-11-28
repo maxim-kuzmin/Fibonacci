@@ -27,11 +27,11 @@ public class CalculationResultConsumerTests
         .Setup(x => x.PublishCalculationResult(
           CalculationResultTestData.CalculationId,
           previousCalculationResult,
-          CancellationToken.None))
+          default))
         .Callback(() => _appBus.Publish(
           CalculationResultTestData.CalculationId.ToString(),
           calculationResultDTO,
-          CancellationToken.None));
+          default));
     }
   }
 
@@ -43,13 +43,13 @@ public class CalculationResultConsumerTests
   {
     CalculationResult previousCalculationResult = new(previousCalculationResultInput, previousCalculationResultOutput);
 
-    await _sut.GetNextCalculationResult(previousCalculationResult, CancellationToken.None);
+    await _sut.GetNextCalculationResult(previousCalculationResult, default);
 
     _calculationNextResultPublisherMock.Verify(
       x => x.PublishCalculationResult(
         CalculationResultTestData.CalculationId,
         previousCalculationResult,
-        CancellationToken.None),
+        default),
       Times.Once());
   }
 
@@ -65,7 +65,7 @@ public class CalculationResultConsumerTests
 
     CalculationResult expected = new(nextCalculationResultInput, nextCalculationResultOutput);
 
-    var actual = await _sut.GetNextCalculationResult(previousCalculationResult, CancellationToken.None);
+    var actual = await _sut.GetNextCalculationResult(previousCalculationResult, default);
 
     Assert.Equal(expected, actual);
   }
