@@ -2,13 +2,11 @@
 
 public class AppTestWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram> where TProgram : class
 {
-  protected override IHost CreateHost(IHostBuilder builder)
+  protected override void ConfigureWebHost(IWebHostBuilder builder)
   {
-    builder.ConfigureHostConfiguration(config =>
+    builder.ConfigureServices(services =>
     {
-      config.AddInMemoryCollection(new Dictionary<string, string?> { { "EmailAddress", "test1@Contoso.com" } });
+      // Здесь можно переопределить зависимости, которые устанавливаются в файле Program.cs.
     });
-
-    return base.CreateHost(builder);
   }
 }
