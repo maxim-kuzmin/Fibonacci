@@ -1,3 +1,6 @@
+include:
+  - docker-compose.observability.yaml
+
 services:
   rabbitmq:
     container_name: ${MY_CONTAINER_RABBITMQ}

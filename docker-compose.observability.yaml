@@ -1,0 +1,96 @@
+services:
+  collector:
+    container_name: ${MY_CONTAINER_COLLECTOR}
+    image: otel/opentelemetry-collector-contrib:latest
+    command: [ "--config=/etc/otel-collector.yaml" ]
+    volumes:
+      - ./configs/otel-collector.yaml:/etc/otel-collector.yaml
+    ports:
+      - "4317:4317"     # OTLP over gRPC receiver
+      - "4318:4318"     # OTLP over HTTP receiver
+      # - "9464"          # Prometheus exporter
+      # - "8888"          # metrics endpoint
+      # - 1888:1888 # pprof extension
+      # - 13133:13133 # health_check extension
+      # - 55679:55679 # zpages extension
+      # - 8888:8888 # Prometheus metrics exposed by the collector
+      # - 8889:8889 # Prometheus exporter metrics
+      # - 4317:4317 # OTLP gRPC receiver
+      # - 4318:4318 # OTLP http receiver
+    depends_on:
+      - jaeger
+      - zipkin
+      - prometheus
+      - loki
+    networks:
+      - practical-otel-net
+
+  jaeger:
+    container_name: ${MY_CONTAINER_JAEGER}
+    image: jaegertracing/all-in-one:latest
+    volumes:
+      - ${MY_DOCKER_FOLDER}/${MY_CONTAINER_JAEGER}:/tmp
+    ports:
+      - "16686:16686" # Jaeger UI
+    networks:
+      - practical-otel-net
+
+  zipkin:
+    container_name: ${MY_CONTAINER_ZIPKIN}
+    image: openzipkin/zipkin:latest
+    volumes:
+      - ${MY_DOCKER_FOLDER}/${MY_CONTAINER_ZIPKIN}:/tmp
+    ports:
+      - "9412:9411"
+    networks:
+      - practical-otel-net
+
+  prometheus:
+    container_name: ${MY_CONTAINER_PROMETHEUS}
+    image: prom/prometheus:latest
+    volumes:
+      - ./configs/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ${MY_DOCKER_FOLDER}/${MY_CONTAINER_PROMETHEUS}:/prometheus
+    command: 
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.listen-address=:8080'
+    ports:
+      - "8081:8080"
+    environment:
+      - config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - practical-otel-net  
+
+  loki:
+    container_name: ${MY_CONTAINER_LOKI}
+    image: grafana/loki:latest
+    volumes:
+      - ${MY_DOCKER_FOLDER}/${MY_CONTAINER_LOKI}:/loki
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    networks:
+      - practical-otel-net  
+
+  grafana:
+    container_name: ${MY_CONTAINER_GRAFANA}
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./configs/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ${MY_DOCKER_FOLDER}/${MY_CONTAINER_GRAFANA}:/var/lib/grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    depends_on:
+      - jaeger
+      - zipkin
+      - prometheus
+      - loki
+      - collector
+    networks:
+      - practical-otel-net  
+
+networks:
+  practical-otel-net:
+    name: practical-otel-net
