@@ -1,6 +1,7 @@
 ﻿global using System.Diagnostics;
 global using Fibonacci.Apps.SecondApp.App;
 global using Fibonacci.Apps.SecondApp.App.Config;
+global using Fibonacci.Apps.SecondApp.App.Middlewares;
 global using Fibonacci.Apps.SecondApp.Calculation;
 global using Fibonacci.DomainModel.App;
 global using Fibonacci.DomainUseCases.App;

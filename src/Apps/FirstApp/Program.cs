@@ -20,7 +20,7 @@ try
       builder.Configuration,
       appConfigOptions.Observability,
       appConfigOptions.RabbitMQ)
-    .AddAppUILayer(logger, appConfigOptions, appConfigSection, calculationCount);
+    .AddAppUILayer(logger, appConfigOptions.SecondAppUrl, calculationCount);
 
   var app = builder.Build();
 

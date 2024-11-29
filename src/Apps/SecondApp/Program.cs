@@ -18,11 +18,11 @@ try
       builder.Configuration,
       appConfigOptions.Observability,
       appConfigOptions.RabbitMQ)
-    .AddAppUILayer(logger, appConfigSection);
+    .AddAppUILayer(logger);
 
   var app = builder.Build();
 
-  app.UseAppHostLayer(logger);
+  app.UseAppUILayer(logger);
 
   app.Run();
 }

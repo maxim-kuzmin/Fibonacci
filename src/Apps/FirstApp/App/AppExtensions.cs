@@ -10,20 +10,16 @@ public static class AppExtensions
   /// </summary>
   /// <param name="services">Сервисы.</param>
   /// <param name="logger">Логгер.</param>
-  /// <param name="appConfigOptions">Параметры конфигурации приложения.</param>
-  /// <param name="appConfigSection">Раздел конфигурации приложения.</param>
+  /// <param name="secondAppUrl">URL второго приложения.</param>
   /// <param name="calculationCount">Количество расчётов.</param>
   /// <returns>Сервисы.</returns>
   public static IServiceCollection AddAppUILayer(
     this IServiceCollection services,
     ILogger logger,
-    AppConfigOptions appConfigOptions,
-    IConfigurationSection appConfigSection,
+    string secondAppUrl,
     int calculationCount)
   {
     ArgumentOutOfRangeException.ThrowIfLessThan(calculationCount, 1);
-
-    services.Configure<AppConfigOptions>(appConfigSection);
 
     services.AddSingleton(_ => new CalculationOptions(calculationCount, 0));
 
@@ -33,7 +29,7 @@ public static class AppExtensions
         AppSettings.CalculationNextResultPublisherHttpClientName,
         client =>
         {
-          client.BaseAddress = new Uri(appConfigOptions.SecondAppUrl);
+          client.BaseAddress = new Uri(secondAppUrl);
 
           client.DefaultRequestHeaders.UserAgent.ParseAdd(nameof(FirstApp));
         })

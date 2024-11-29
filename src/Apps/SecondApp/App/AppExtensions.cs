@@ -1,6 +1,4 @@
-﻿using Fibonacci.Apps.SecondApp.App.Middlewares;
-
-namespace Fibonacci.Apps.SecondApp.App;
+﻿namespace Fibonacci.Apps.SecondApp.App;
 
 /// <summary>
 /// Расширения приложения.
@@ -12,17 +10,11 @@ public static class AppExtensions
   /// </summary>
   /// <param name="services">Сервисы.</param>
   /// <param name="logger">Логгер.</param>
-  /// <param name="appConfigSection">Раздел конфигурации приложения.</param>
   /// <returns>Сервисы.</returns>
-  public static IServiceCollection AddAppUILayer(
-    this IServiceCollection services,
-    ILogger logger,
-    IConfigurationSection appConfigSection)
+  public static IServiceCollection AddAppUILayer(this IServiceCollection services, ILogger logger)
   {
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
-
-    services.Configure<AppConfigOptions>(appConfigSection);
 
     logger.LogInformation("UI layer added");
 
@@ -44,12 +36,12 @@ public static class AppExtensions
   }
 
   /// <summary>
-  /// Использовать уровень хоста приложения.
+  /// Использовать уровень пользовательского интерфейса приложения.
   /// </summary>
   /// <param name="app">Приложение.</param>
   /// <param name="logger">Логгер.</param>
   /// <returns>Приложение.</returns>
-  public static WebApplication UseAppHostLayer(this WebApplication app, ILogger logger)
+  public static WebApplication UseAppUILayer(this WebApplication app, ILogger logger)
   {
     if (app.Environment.IsDevelopment())
     {
