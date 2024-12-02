@@ -51,7 +51,7 @@ public static class AppExtensions
 
     app.UseHttpsRedirection();
 
-    app.UseMiddleware<AppTraceMiddleware>();
+    app.UseMiddleware<AppTracingMiddleware>();
 
     app.MapGroup($"/{AppSettings.CalculationApiPath}").MapCalculationApi().WithTags("Calculation Endpoints");
 
