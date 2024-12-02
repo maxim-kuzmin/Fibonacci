@@ -1,6 +1,6 @@
 ﻿namespace Fibonacci.Apps.SecondApp.App.Middlewares;
 
-public class AppTraceIdResponseHeaderMiddleware(RequestDelegate next)
+public class AppTraceMiddleware(RequestDelegate next)
 {
   private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 

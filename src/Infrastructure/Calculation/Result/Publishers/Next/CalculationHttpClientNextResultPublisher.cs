@@ -17,11 +17,14 @@ public class CalculationHttpClientNextResultPublisher(IHttpClientFactory _httpCl
 
     var command = calculationResult.ToCalculationSendResultActionCommand(calculationId);
 
-    using var requestContent = JsonContent.Create(command);
+    using var httpRequestContent = JsonContent.Create(command);
 
-    var requestTask = httpClient.PostAsync(AppSettings.CalculationApiSendResultUrl, requestContent, cancellationToken);
+    var httpRequestTask = httpClient.PostAsync(
+      AppSettings.CalculationApiSendResultUrl,
+      httpRequestContent,
+      cancellationToken);
 
-    var responseMessage = await requestTask.ConfigureAwait(false);
+    using var responseMessage = await httpRequestTask.ConfigureAwait(false);
 
     responseMessage.EnsureSuccessStatusCode();
   }
