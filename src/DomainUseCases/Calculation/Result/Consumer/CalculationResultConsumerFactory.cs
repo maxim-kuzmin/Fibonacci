@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.Calculation.Result.Consumer;
+﻿namespace Fibonacci.DomainUseCases.Calculation.Result.Consumer;
 
 /// <summary>
 /// Фабрика потребителей результата расчёта.

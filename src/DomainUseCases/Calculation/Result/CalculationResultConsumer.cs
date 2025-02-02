@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.Calculation.Result;
+﻿namespace Fibonacci.DomainUseCases.Calculation.Result;
 
 /// <summary>
 /// Потребитель результата расчёта.

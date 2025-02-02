@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.UnitTests.Calculation.Result.Consumer;
+﻿namespace Fibonacci.DomainUseCases.UnitTests.Calculation.Result.Consumer;
 
 public class CalculationResultConsumerFactoryTests
 {

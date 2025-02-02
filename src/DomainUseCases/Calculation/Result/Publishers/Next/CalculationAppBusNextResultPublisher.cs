@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.Calculation.Result.Publishers.Next;
+﻿namespace Fibonacci.DomainUseCases.Calculation.Result.Publishers.Next;
 
 /// <summary>
 /// Публикатор следующего результата расчёта в шину приложения.

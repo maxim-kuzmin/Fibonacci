@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.App.Buses;
+﻿namespace Fibonacci.DomainUseCases.App.Buses;
 
 /// <summary>
 /// Шина приложения для обмена сообщениями в памяти.

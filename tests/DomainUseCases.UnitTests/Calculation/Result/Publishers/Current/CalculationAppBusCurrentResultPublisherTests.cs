@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.Infrastructure.UnitTests.Calculation.Result.Publishers.Current;
+﻿namespace Fibonacci.DomainUseCases.UnitTests.Calculation.Result.Publishers.Current;
 
 public class CalculationAppBusCurrentResultPublisherTests
 {

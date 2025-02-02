@@ -1,4 +1,4 @@
-﻿namespace Fibonacci.DomainModel.App;
+﻿namespace Fibonacci.DomainUseCases.App;
 
 /// <summary>
 /// Интерфейс шины приложения.
