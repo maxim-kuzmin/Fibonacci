@@ -7,6 +7,7 @@ public class AppInMemoryBus : IAppBus
 {
   private readonly Dictionary<Type, Dictionary<string, object>> _channelsLookup = [];
 
+  /// <inheritdoc/>
   public Task Publish<TMessage>(string subscriberId, TMessage message, CancellationToken cancellationToken)
   {
     var channel = GetChannel<TMessage>(subscriberId);
@@ -16,6 +17,7 @@ public class AppInMemoryBus : IAppBus
     return valueTask.AsTask();
   }
 
+  /// <inheritdoc/>
   public Task Subscribe<TMessage>(
     string subscriberId,
     Func<TMessage, CancellationToken, Task> onMessage,

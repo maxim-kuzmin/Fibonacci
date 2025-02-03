@@ -11,7 +11,7 @@ public interface ICalculationResultPublisher
   /// <param name="calculationId">Идентификатор расчёта.</param>
   /// <param name="calculationResult">Результат расчёта.</param>
   /// <param name="cancellationToken">Токен отмены.</param>
-  /// <returns></returns>
+  /// <returns>Задача.</returns>
   Task PublishCalculationResult(
     Guid calculationId,
     CalculationResult calculationResult,

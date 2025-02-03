@@ -9,6 +9,6 @@ public interface ICalculationService
   /// Рассчитать.
   /// </summary>
   /// <param name="cancellationToken">Токен отмены.</param>
-  /// <returns></returns>
+  /// <returns>Задача.</returns>
   Task Calculate(CancellationToken cancellationToken);
 }
